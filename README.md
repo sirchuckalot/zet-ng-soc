@@ -18,9 +18,7 @@ SIMULATING THE SYSTEM
 
 Credits
 -------
-  Most of the work is (C) Copyright 2008, 2009, 2010 Zeus Gomez Marmolejo.
-  All hardware and software source files are released under the GNU GPLv3
-  license. Read the LICENSE file included.
+  Most of the work is (C) Copyright 2008, 2009, 2010 Zeus Gomez Marmolejo. All hardware and software source files are released under the GNU GPLv3 license. Read the LICENSE file included.
 
   Special thanks to people that helped significantly to this project:
    - Sebastien Bourdeauducq to his DRAM memory controller
