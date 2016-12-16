@@ -1,23 +1,22 @@
-+++ Zet Next Generation SoC +++
-=====================================
+Zet Next Generation SoC
+=======================
 
-This package contains all source code, test benches, bitfiles, ROMs and
-scripts used in the Zet Next Generation SoC. This next generation System
-on Chip is based upon the FuseSoC v1.5 framework build system.
+This package contains all source code, test benches, bitfiles, ROMs and scripts used in the Zet Next Generation SoC. This next generation System on Chip is based upon the FuseSoC v1.5 framework build system.
 
-The target is to first develop 32-bit zet-ng-generic reference design.
-Additional board ports will be based upon this reference design as they
-become available.
+The target is to first develop 32-bit zet-ng-generic reference design. Additional board ports will be based upon this reference design as they become available.
 
-++ Explanation of directories
-  cores      - Cores based upon FuseSoC build system
-  systems    - Board ports including zet-ng-generic
+**Explanation of directories**
+cores    - Cores based upon FuseSoC build system
+systems  - Board ports including zet-ng-generic
 
-++ BUILDING THE SYSTEM
+BUILDING THE SYSTEM
+-------------------
 
-++ SIMULATING THE SYSTEM
+SIMULATING THE SYSTEM
+---------------------
 
-++ Credits
+Credits
+-------
   Most of the work is (C) Copyright 2008, 2009, 2010 Zeus Gomez Marmolejo.
   All hardware and software source files are released under the GNU GPLv3
   license. Read the LICENSE file included.
