@@ -10,6 +10,11 @@ The target is to first develop 32-bit zet-ng-generic reference design. Additiona
     cores    - Cores library in Verilog source code
     systems  - Different boards supported (implementation dependent files)
 
+DOWNLOADING SOURCES
+-------------------
+
+    git clone https://github.com/sirchuckalot/zet-ng-soc
+
 BUILDING THE SYSTEM
 -------------------
 
