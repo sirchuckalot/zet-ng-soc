@@ -7,8 +7,8 @@ The target is to first develop 32-bit zet-ng-generic reference design. Additiona
 
 **Explanation of directories**
 
-    cores    - Cores based upon FuseSoC build system
-    systems  - Board ports including zet-ng-generic
+    cores    - Cores library in Verilog source code
+    systems  - Different boards supported (implementation dependent files)
 
 BUILDING THE SYSTEM
 -------------------
