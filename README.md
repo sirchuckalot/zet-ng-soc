@@ -6,7 +6,9 @@ This package contains all source code, test benches, bitfiles, ROMs and scripts 
 The target is to first develop 32-bit zet-ng-generic reference design. Additional board ports will be based upon this reference design as they become available.
 
 **Explanation of directories**
+
 cores    - Cores based upon FuseSoC build system
+
 systems  - Board ports including zet-ng-generic
 
 BUILDING THE SYSTEM
