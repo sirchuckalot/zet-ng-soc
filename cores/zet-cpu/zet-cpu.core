@@ -1,0 +1,62 @@
+CAPI=2:
+
+name: marmolejo:zet:cpu:1.3.1
+
+filesets:
+  cpu_rtl:
+    files:
+      - cores/zet/rtl/defines.v: {is_include_file : true}
+      - cores/zet/rtl/zet.v
+      - cores/zet/rtl/zet_core.v
+      - cores/zet/rtl/zet_wb_master.v
+      - cores/zet/rtl/zet_fetch.v
+      - cores/zet/rtl/zet_decode.v
+      - cores/zet/rtl/zet_micro_data.v
+      - cores/zet/rtl/zet_exec.v
+      - cores/zet/rtl/zet_next_or_not.v
+      - cores/zet/rtl/zet_nstate.v
+      - cores/zet/rtl/zet_opcode_deco.v
+      - cores/zet/rtl/zet_micro_rom.v
+      - cores/zet/rtl/zet_alu.v
+      - cores/zet/rtl/zet_regfile.v
+      - cores/zet/rtl/zet_jmp_cond.v
+      - cores/zet/rtl/zet_memory_regs.v
+      - cores/zet/rtl/zet_addsub.v
+      - cores/zet/rtl/zet_conv.v
+      - cores/zet/rtl/zet_muldiv.v
+      - cores/zet/rtl/zet_bitlog.v
+      - cores/zet/rtl/zet_arlog.v
+      - cores/zet/rtl/zet_shrot.v
+      - cores/zet/rtl/zet_othop.v
+      - cores/zet/rtl/zet_mux8_16.v
+      - cores/zet/rtl/zet_mux8_1.v
+      - cores/zet/rtl/zet_fulladd16.v
+      - cores/zet/rtl/altera/zet_signmul17.v
+      - cores/zet/rtl/zet_div_su.v
+      - cores/zet/rtl/zet_rxr8.v
+      - cores/zet/rtl/zet_rxr16.v
+      - cores/zet/rtl/zet_div_uu.v
+    file_type: verilogSource
+    depend :
+      - marmolejo:zet:cpu-microcode:1.3.1
+
+  # PLEASE NOTE: The local CPU microcode must be generated from the original
+  # verilog cpu sources and is implementation specific to that revision. Future
+  # revisions will include automatic microcode generation.
+
+#  local_cpu_microcode:
+#    files:
+#      - microcode/rom_def.v: {is_include_file : true}
+#      - microcode/micro_rom.dat: {copyto : micro_rom.dat, is_include_file : true}
+#    file_type: verilogSource
+
+targets:
+  default:
+    filesets: [cpu_rtl]
+
+provider:
+  name : github
+  user : marmolejo
+  repo : zet
+  version : v1.3.1
+ 

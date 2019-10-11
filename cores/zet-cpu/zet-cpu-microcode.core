@@ -1,0 +1,18 @@
+CAPI=2:
+
+name: marmolejo:zet:cpu-microcode:1.3.1
+
+filesets:
+  local_cpu_microcode:
+    files:
+      - microcode/rom_def.v: {is_include_file : true}
+      - microcode/micro_rom.dat: {copyto : micro_rom.dat, is_include_file : true}
+    file_type: verilogSource
+
+  # PLEASE NOTE: The local CPU microcode must be generated from the original
+  # verilog cpu sources and is implementation specific to that revision. Future
+  # revisions will include automatic microcode generation.
+    
+targets:
+  default:
+    filesets: [local_cpu_microcode]
