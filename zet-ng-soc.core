@@ -27,11 +27,35 @@ targets:
             - zet_ng_soc_core_rtl
             - zet_ng_soc_core_tb
             - tool_verilator? (verilator_tb)
+        toplevel: zet_ng_soc_core_tb
         parameters : [timeout, vcd]
         tools:
             verilator:
-                verilator_options : [--trace, -Wno-fatal]
-        toplevel: zet_ng_soc_core_tb                                
+                mode: cc
+                verilator_options:
+                    - "--trace"
+                    - '-CFLAGS "-std=c++11"'
+                    - '-LDFLAGS "-pthread"'
+                    - "-Wall"
+                    # XXX: Cleanup all warnings and remove this option
+                    # (or make it more fine-grained at least)
+                    - "-Wno-fatal"
+
+    lint:
+        default_tool: verilator
+        filesets:
+            - zet_ng_soc_core_rtl
+            - zet_ng_soc_core_tb
+            - verilator_tb
+        toplevel: zet_ng_soc_core_tb
+        parameters: [timeout, vcd]
+        tools:
+            verilator:
+                mode: lint-only
+                verilator_options:
+                    - '-CFLAGS "-std=c++11"'
+                    - '-LDFLAGS "-pthread"'
+                    - "-Wall"
     
     default:
         filesets: [zet_ng_soc_core_rtl]
