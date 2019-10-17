@@ -1,0 +1,14 @@
+CAPI=2:
+
+name: sirchuckalot:zet:zet_cpu_switch:0
+
+filesets:
+  zet_cpu_switch_rtl:
+    files:
+      - rtl/zet_cpu_switch.sv
+    file_type: systemVerilogSource
+
+targets:
+  default:
+    filesets: [zet_cpu_switch_rtl]
+ 
