@@ -1,0 +1,20 @@
+CAPI=2:
+
+name: laanstragj:zet:pic:1.2.0
+
+filesets:
+  pic_rtl:
+    files:
+      - cores/pic/rtl/pic.v
+    file_type: verilogSource
+
+targets:
+  default:
+    filesets: [pic_rtl]
+
+provider:
+  name : github
+  user : LaanstraGJ
+  repo : zet
+  version : v1.2.0
+ 
