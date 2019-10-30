@@ -1,0 +1,24 @@
+CAPI=1
+[main]
+name = glip:backend:tcp
+description = "GLIP DPI TCP backend (for simulation only)"
+depend = glip:common:channel
+
+[fileset src_files]
+file_type = systemVerilogSource
+usage = sim synth
+files =
+  src/backend_tcp/logic/dpi/glip_tcp_toplevel.sv
+
+[fileset dpi]
+file_type = cppSource
+usage = sim verilator
+files =
+  src/backend_tcp/logic/dpi/glip_tcp_dpi.cpp
+  src/backend_tcp/logic/dpi/GlipTcp.cpp  
+  src/backend_tcp/logic/dpi/GlipTcp.h[is_include_file]
+
+[provider]
+    name = github
+    user = TUM-LIS
+    repo = glip

@@ -1,0 +1,16 @@
+CAPI=1
+[main]
+name = opensocdebug:modules:mam
+depend =
+  opensocdebug:interfaces:dii_channel
+
+[fileset src_files]
+file_type = systemVerilogSource
+usage = sim synth
+files =
+  modules/mam/common/osd_mam.sv
+  
+[provider]
+    name = github
+    user = opensocdebug
+    repo = osd-hw

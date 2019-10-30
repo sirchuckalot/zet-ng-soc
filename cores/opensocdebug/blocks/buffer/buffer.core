@@ -1,0 +1,18 @@
+CAPI=1
+[main]
+name = opensocdebug:blocks:buffer
+
+depend =
+   opensocdebug:interfaces:dii_channel
+
+[fileset src_files]
+file_type = systemVerilogSource
+usage = sim synth
+files =
+  blocks/buffer/common/dii_buffer.sv
+  blocks/buffer/common/osd_fifo.sv
+  
+[provider]
+    name = github
+    user = opensocdebug
+    repo = osd-hw

@@ -1,0 +1,15 @@
+CAPI=1
+[main]
+name = glip:common:channel
+description = "GLIP Communication Channel (SV interface)"
+
+[fileset src_files]
+file_type = systemVerilogSource
+usage = sim synth
+files =
+  src/common/logic/interface/glip_channel.sv
+  
+[provider]
+    name = github
+    user = TUM-LIS
+    repo = glip

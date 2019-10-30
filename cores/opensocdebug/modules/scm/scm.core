@@ -1,0 +1,17 @@
+CAPI=1
+[main]
+name = opensocdebug:modules:scm
+depend =
+  opensocdebug:blocks:buffer
+  opensocdebug:blocks:regaccess
+
+[fileset src_files]
+file_type = systemVerilogSource
+usage = sim synth
+files =
+  modules/scm/common/osd_scm.sv
+  
+[provider]
+    name = github
+    user = opensocdebug
+    repo = osd-hw

@@ -1,0 +1,25 @@
+CAPI=1
+[main]
+name = opensocdebug:interconnect:debug_ring
+
+depend =
+  opensocdebug:interfaces:dii_channel
+
+[fileset src_files]
+file_type = systemVerilogSource
+usage = sim synth
+files =
+  interconnect/common/debug_ring.sv
+  interconnect/common/debug_ring_expand.sv
+  interconnect/common/ring_router_demux.sv
+  interconnect/common/ring_router.sv
+  interconnect/common/ring_router_mux.sv
+  interconnect/common/ring_router_mux_rr.sv
+  interconnect/common/ring_router_gateway.sv
+  interconnect/common/ring_router_gateway_demux.sv
+  interconnect/common/ring_router_gateway_mux.sv
+  
+[provider]
+    name = github
+    user = opensocdebug
+    repo = osd-hw
