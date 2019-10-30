@@ -3,10 +3,17 @@ CAPI=2:
 name : ::zet-ng-soc:0
 
 filesets:
+    files_depend_rtl:
+        depend:
+            - glip:backend:tcp
+            - optimsoc:debug:debug_interface
+
     zet_ng_soc_core_rtl:
         files:
             - rtl/zet_ng_soc_core.sv
         file_type: systemVerilogSource
+        depend:
+            - opensocdebug:modules:mam_wb
 
     zet_ng_soc_core_tb:
         files:
@@ -14,16 +21,23 @@ filesets:
         file_type: systemVerilogSource
         depend:
             - vlog_tb_utils
+            - wb_ram
 
     verilator_tb:
         files:
             - tb/tb.cpp
         file_type: cppSource
-
+    
+    files_lint_verilator:
+        files:
+            - lint/verilator_waiver.vlt: {file_type: vlt}
+ 
 targets:
     sim:
         default_tool: verilator
         filesets:
+            - tool_verilator ? (files_lint_verilator)
+            - files_depend_rtl
             - zet_ng_soc_core_rtl
             - zet_ng_soc_core_tb
             - tool_verilator? (verilator_tb)
@@ -44,9 +58,14 @@ targets:
     lint:
         default_tool: verilator
         filesets:
+            # Note on Verilator waivers:
+            # You *must* include the waiver file first, otherwise only global waivers
+            # are applied, but not file-specific waivers.
+            - tool_verilator ? (files_lint_verilator)
+            - files_depend_rtl
             - zet_ng_soc_core_rtl
             - zet_ng_soc_core_tb
-            - verilator_tb
+            - tool_verilator? (verilator_tb)
         toplevel: zet_ng_soc_core_tb
         parameters: [timeout, vcd]
         tools:

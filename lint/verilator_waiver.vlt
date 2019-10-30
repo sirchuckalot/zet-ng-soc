@@ -1,0 +1,28 @@
+// Lint waivers for Verilator
+// See https://www.veripool.org/projects/verilator/wiki/Manual-verilator#CONFIGURATION-FILES
+// for documentation.
+//
+// Important: This file must included *before* any other Verilog file is read.
+// Otherwise, only global waivers are applied, but not file-specific waivers.
+
+// Take remaining text up to the next `verilog mode switch
+// and treat it as Verilator configuration commands.
+`verilator_config
+
+// By default, globally we will not warn when PINCONNECTEMPTY is encountered
+// Not every module will have pins connected. So, this must be used with extreme caution!!!
+// If the global default can be avoided, then it is better to do use this option on a
+// per file basis when it is acceptable to do so.
+lint_off -msg PINCONNECTEMPTY
+
+// Filename 'dii_channel' does not match PACKAGE name: 'dii_package'
+// dii_channel is from an external repository and outside our control to rename package
+lint_off -msg DECLFILENAME -file "../src/opensocdebug_interfaces_dii_channel_0/interfaces/common/dii_channel.sv"
+
+// Declaration of signal hides declaration in upper scope: 'data'
+// glip_tcp_toplevel is from an external repository and outside our control to change
+// dii_buffer is from an external repository and outside our control to change
+// wb_common is from an external repository and outside our control to change
+lint_off -msg VARHIDDEN -file "../src/glip_backend_tcp_0/src/backend_tcp/logic/dpi/glip_tcp_toplevel.sv"
+lint_off -msg VARHIDDEN -file "../src/opensocdebug_blocks_buffer_0/blocks/buffer/common/dii_buffer.sv"
+lint_off -msg VARHIDDEN -file "../src/wb_common_1.0.3/wb_common.v"
