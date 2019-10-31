@@ -36,12 +36,16 @@ lint_off -msg VARHIDDEN -file "../src/wb_common_1.0.3/wb_common.v"
 // This is a rotate right register and it is to be expected that width will be a miss match
 lint_off -msg WIDTH -file "../src/opensocdebug_blocks_buffer_0/blocks/buffer/common/dii_buffer.sv"
 
-// Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'BTE_LINEAR' generates 2 bits.
-// Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'BTE_WRAP_4' generates 2 bits.
-// Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'BTE_WRAP_8' generates 2 bits.
-// Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'BTE_WRAP_16' generates 2 bits.
+// wb_common.v:56: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'BTE_LINEAR' generates 2 bits.
+// wb_common.v:56: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'BTE_WRAP_4' generates 2 bits.
+// wb_common.v:56: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'BTE_WRAP_8' generates 2 bits.
+// wb_common.v:56: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'BTE_WRAP_16' generates 2 bits.
 // This is acceptable because only 2 bits are required to represent the four possible BTE defined types 
 lint_off -msg WIDTH -file "../src/wb_common_1.0.3/wb_common.v"
+
+// wb_common.v:56: Case values incompletely covered (example pattern 0x4)
+// This is acceptable because only 2 bits are required to represent the four possible BTE defined types
+lint_off -msg CASEINCOMPLETE -file "../src/wb_common_1.0.3/wb_common.v"
 
 // osd_mam.sv:295: Operator EQ expects 32 bits on the LHS, but LHS's VARREF 'counter' generates 4 bits.
 // osd_mam.sv:338: Operator EQ expects 32 or 6 bits on the LHS, but LHS's VARREF 'wcounter' generates 5 bits.

@@ -20,6 +20,7 @@ module zet_ng_soc_core
         parameter USE_DEBUG = 'x,
         
         parameter MEM_SIZE = 128*1024*1024,
+        parameter MEM_ADDR_WIDTH = $clog2(MEM_SIZE),
         parameter MEM_FILE = 'x
      )
      (
@@ -30,18 +31,22 @@ module zet_ng_soc_core
          input [1:0]     debug_ring_out_ready,
          
          // Wishbone external memory interface
-         output [$clog2(MEM_SIZE)-1:0]   wb_ext_adr_o,
+         output [MEM_ADDR_WIDTH-1:0]   wb_ext_adr_o,
          output          wb_ext_cyc_o,
          output [31:0]   wb_ext_dat_o,
          output [3:0]    wb_ext_sel_o,
          output          wb_ext_stb_o,
          output          wb_ext_we_o,
+         /* verilator lint_off UNDRIVEN */
          output          wb_ext_cab_o,
+         /* verilator lint_on UNDRIVEN */
          output [2:0]    wb_ext_cti_o,
          output [1:0]    wb_ext_bte_o,
          input           wb_ext_ack_i,
+         /* verilator lint_off UNUSED */
          input           wb_ext_rty_i,
          input           wb_ext_err_i,
+         /* verilator lint_on UNUSED */
          input [31:0]    wb_ext_dat_i,
 
         // Clock and reset inputs
@@ -90,6 +95,7 @@ endgenerate
 // For testing, we immediately route MAM requests to external memory
 osd_mam_wb #(
     .DATA_WIDTH(32),
+    .ADDR_WIDTH(MEM_ADDR_WIDTH),
     .MAX_PKT_LEN(DEBUG_MAX_PKT_LEN),
     .MEM_SIZE0(MEM_SIZE),
     .BASE_ADDR0(0))

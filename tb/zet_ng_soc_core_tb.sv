@@ -17,19 +17,6 @@ module zet_ng_soc_core_tb(
     input rst
 `endif
 );
-// Only used to remove messages
-logic r_clk;
-logic r_rst;
-
-always @(posedge clk)
-    if (rst) begin
-        r_clk <= 1'b0;
-        r_rst <= 1'b0;
-    end
-    else begin
-        r_clk <= !r_clk;
-        r_rst <= !r_rst;
-    end
 
 import dii_package::dii_flit;
 
@@ -48,6 +35,8 @@ parameter DEBUG_ROUTER_BUFFER_SIZE = 4;
 // Memory parameters
 parameter MEM_FILE = "";
 parameter MEM_SIZE = 128*1024*1024; // 128MB equals 134217728 in bytes
+//parameter MEM_ADDR_WIDTH = $clog2(MEM_SIZE);
+parameter MEM_ADDR_WIDTH = 32;
 
 logic rst_sys, rst_cpu;
     
@@ -77,20 +66,29 @@ generate
     if (USE_DEBUG == 1) begin
         glip_channel c_glip_in(.*);
         glip_channel c_glip_out(.*);
-
+        
+        /* verilator lint_off UNUSED */
         logic com_rst, logic_rst;
+        /* verilator lint_on UNUSED */
 
         // TCP communication interface (simulation only)
         glip_tcp_toplevel
             u_glip(
-                .*,
+                // Inputs
                 .clk_io    (clk),
                 .clk_logic (clk),
+                .rst(rst),
+                
+                // Input/Output
                 .fifo_in   (c_glip_in),
-                .fifo_out  (c_glip_out)
+                .fifo_out  (c_glip_out),
+                
+                // Outputs
+                .logic_rst(logic_rst),
+                .com_rst(com_rst)
             );
 
-        // System Interface
+            // System Interface
         debug_interface
             #(
                 .SYSTEM_VENDOR_ID   (SYSTEM_VENDOR_ID),
@@ -122,17 +120,21 @@ endgenerate
 // Wishbone B3 interface wires for connecting generic memory interface
 logic        wb_mem_clk_o;
 logic        wb_mem_rst_o;
-logic [$clog2(MEM_SIZE)-1:0] wb_mem_adr_o;
+logic [MEM_ADDR_WIDTH-1:0] wb_mem_adr_o;
 logic        wb_mem_cyc_o;
 logic [31:0] wb_mem_dat_o;
 logic [3:0]  wb_mem_sel_o;
 logic        wb_mem_stb_o;
 logic        wb_mem_we_o;
+/* verilator lint_off UNUSED */
 logic        wb_mem_cab_o;
+/* verilator lint_on UNUSED */
 logic [2:0]  wb_mem_cti_o;
 logic [1:0]  wb_mem_bte_o;
 logic        wb_mem_ack_i;
+/* verilator lint_off UNDRIVEN */
 logic        wb_mem_rty_i;
+/* verilator lint_on UNDRIVEN */
 logic        wb_mem_err_i;
 logic [31:0] wb_mem_dat_i;
 
@@ -144,6 +146,7 @@ zet_ng_soc_core
       .DEBUG_MAX_PKT_LEN(DEBUG_MAX_PKT_LEN),
       .USE_DEBUG(USE_DEBUG),
       .MEM_SIZE(MEM_SIZE),
+      .MEM_ADDR_WIDTH(MEM_ADDR_WIDTH),
       .MEM_FILE(MEM_FILE)
       )
     zet_ng_soc(
@@ -182,12 +185,13 @@ assign wb_mem_rst_o = rst_sys;
 
 wb_ram
     #(.depth (MEM_SIZE),
-      .memfile(MEM_FILE))
+      .memfile(MEM_FILE),
+      .aw(MEM_ADDR_WIDTH))
 wb_ram
     (// Wishbone interface
      .wb_clk_i (wb_mem_clk_o),
      .wb_rst_i (wb_mem_rst_o),
-     .wb_adr_i (wb_mem_adr_o[$clog2(MEM_SIZE)-1:0]),
+     .wb_adr_i (wb_mem_adr_o),
      .wb_stb_i (wb_mem_stb_o),
      .wb_cyc_i (wb_mem_cyc_o),
      .wb_cti_i (wb_mem_cti_o),
