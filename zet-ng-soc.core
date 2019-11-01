@@ -3,7 +3,7 @@ CAPI=2:
 name : ::zet-ng-soc:0
 
 filesets:
-    files_depend_rtl:
+    files_debug_rtl:
         depend:
             - glip:backend:tcp
             - optimsoc:debug:debug_interface
@@ -14,6 +14,7 @@ filesets:
         file_type: systemVerilogSource
         depend:
             - opensocdebug:modules:mam_wb
+            - wb_intercon
 
     zet_ng_soc_core_tb:
         files:
@@ -37,10 +38,11 @@ targets:
         default_tool: verilator
         filesets:
             - tool_verilator ? (files_lint_verilator)
-            - files_depend_rtl
+            - files_debug_rtl
             - zet_ng_soc_core_rtl
             - zet_ng_soc_core_tb
             - tool_verilator? (verilator_tb)
+        generate : [wb_intercon]
         toplevel: zet_ng_soc_core_tb
         parameters : [timeout, vcd]
         tools:
@@ -62,10 +64,11 @@ targets:
             # You *must* include the waiver file first, otherwise only global waivers
             # are applied, but not file-specific waivers.
             - tool_verilator ? (files_lint_verilator)
-            - files_depend_rtl
+            - files_debug_rtl
             - zet_ng_soc_core_rtl
             - zet_ng_soc_core_tb
             - tool_verilator? (verilator_tb)
+        generate : [wb_intercon]
         toplevel: zet_ng_soc_core_tb
         parameters: [timeout, vcd]
         tools:
@@ -78,6 +81,21 @@ targets:
     
     default:
         filesets: [zet_ng_soc_core_rtl]
+        generate : [intercon]
+
+generate:
+    wb_intercon:
+        generator : wb_intercon_gen
+        parameters:
+            masters:
+                osd_mam_wb:
+                    slaves:
+                        - ext_ram
+            slaves:
+                ext_ram:
+                    datawidth: 32
+                    offset : 0x00000000
+                    size   : 0x08000000 #128MiB
 
 parameters:
     timeout:

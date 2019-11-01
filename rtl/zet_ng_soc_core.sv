@@ -54,6 +54,23 @@ module zet_ng_soc_core
         input           rst_cpu, rst_sys, rst_dbg
      );
 
+////////////////////////////////////////////////////////////////////////
+//
+// Wishbone interconnect
+//
+////////////////////////////////////////////////////////////////////////
+
+wire wb_clk = clk;
+wire wb_rst = rst_sys;
+
+`include "wb_intercon.vh"
+    
+////////////////////////////////////////////////////////////////////////
+//
+// OSD Debug Ring Expand Router
+//
+////////////////////////////////////////////////////////////////////////
+    
 // create DI ring segment with routers
 localparam DEBUG_MODS_PER_CORE = 1;
 localparam DEBUG_MODS_PER_CORE_NONZERO = (DEBUG_MODS_PER_CORE == 0) ? 1 : DEBUG_MODS_PER_CORE;
@@ -89,10 +106,18 @@ generate
     end // if (USE_DEBUG)
 endgenerate
 
-// Local debug subnet module mapping
+// Local debug module mapping
 // id_map [0] = MAM
 
-// For testing, we immediately route MAM requests to external memory
+////////////////////////////////////////////////////////////////////////
+//
+// Master OSD MAM Wishbone Debug Module
+//
+////////////////////////////////////////////////////////////////////////
+
+// Unused connections
+// wire wb_s2m_osd_mam_wb_err;
+// wire wb_s2m_osd_mam_wb_rty;
 osd_mam_wb #(
     .DATA_WIDTH(32),
     .ADDR_WIDTH(MEM_ADDR_WIDTH),
@@ -109,16 +134,35 @@ u_mam_dm_wb(
     .debug_out_ready(dii_in_ready[0]),    
     .id (16'(DEBUG_BASEID)),
     
-    .stb_o(wb_ext_stb_o),
-    .cyc_o(wb_ext_cyc_o),
-    .ack_i(wb_ext_ack_i),
-    .we_o(wb_ext_we_o),
-    .addr_o(wb_ext_adr_o),
-    .dat_o(wb_ext_dat_o),
-    .dat_i(wb_ext_dat_i),
-    .cti_o(wb_ext_cti_o),
-    .bte_o(wb_ext_bte_o),
-    .sel_o(wb_ext_sel_o));
+    .stb_o(wb_m2s_osd_mam_wb_stb),
+    .cyc_o(wb_m2s_osd_mam_wb_cyc),
+    .ack_i(wb_s2m_osd_mam_wb_ack),
+    .we_o(wb_m2s_osd_mam_wb_we),
+    .addr_o(wb_m2s_osd_mam_wb_adr),
+    .dat_o(wb_m2s_osd_mam_wb_dat),
+    .dat_i(wb_s2m_osd_mam_wb_dat),
+    .cti_o(wb_m2s_osd_mam_wb_cti),
+    .bte_o(wb_m2s_osd_mam_wb_bte),
+    .sel_o(wb_m2s_osd_mam_wb_sel));
+
+////////////////////////////////////////////////////////////////////////
+//
+// External Memory Interface Connections
+//
+////////////////////////////////////////////////////////////////////////
+
+assign wb_ext_adr_o = wb_m2s_ext_ram_adr;
+assign wb_ext_dat_o = wb_m2s_ext_ram_dat;
+assign wb_ext_sel_o = wb_m2s_ext_ram_sel;
+assign wb_ext_we_o = wb_m2s_ext_ram_we;
+assign wb_ext_cyc_o = wb_m2s_ext_ram_cyc;
+assign wb_ext_stb_o = wb_m2s_ext_ram_stb;
+assign wb_ext_cti_o = wb_m2s_ext_ram_cti;
+assign wb_ext_bte_o = wb_m2s_ext_ram_bte;
+assign wb_s2m_ext_ram_dat = wb_ext_dat_i;
+assign wb_s2m_ext_ram_ack = wb_ext_ack_i;
+assign wb_s2m_ext_ram_err = wb_ext_err_i;
+assign wb_s2m_ext_ram_rty = wb_ext_rty_i;
 
 endmodule
 
