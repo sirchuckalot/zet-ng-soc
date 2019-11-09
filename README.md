@@ -8,9 +8,10 @@ The target is to first develop 32-bit zet-ng-generic reference design. We will f
 ## Explanation of directories
 
     cores    - External and Internal cores dependency library
-    lint     - Verilog lint configuration
-    rtl      - ZET-NG-SOC Verilog files
-    tb       - Basic Testbench and Verilator C++ file
+    hw       - Reference designs
+    ├─────── - zet-ng-generic
+    └─────── - top_woodchuck
+    
 
 ## How to use
 
