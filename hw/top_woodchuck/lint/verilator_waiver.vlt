@@ -120,10 +120,10 @@ lint_off -msg UNOPTFLAT -file "../src/opensocdebug_blocks_regaccess_0/blocks/reg
 // Working Optimsoc reference design has the same warning
 lint_off -msg BLKSEQ -file "../src/glip_backend_tcp_0/src/backend_tcp/logic/dpi/glip_tcp_toplevel.sv"
 
-// wb_intercon.vh:13: Signal is not used: 'wb_s2m_mam_err'
-// wb_intercon.vh:14: Signal is not used: 'wb_s2m_mam_rty'
-lint_off -msg UNUSED -file "../src/zet-ng-soc-wb_intercon_0/wb_intercon.vh" --lines 13
-lint_off -msg UNUSED -file "../src/zet-ng-soc-wb_intercon_0/wb_intercon.vh" --lines 14
+// wb_intercon.vh:13: Signal is not used: 'wb_s2m_osd_mam_wb_err'
+// wb_intercon.vh:14: Signal is not used: 'wb_s2m_osd_mam_wb_rty'
+lint_off -msg UNUSED -file "../src/zet-ng-soc_systems_top_woodchuck-wb_intercon_0/wb_intercon.vh" --lines 13
+lint_off -msg UNUSED -file "../src/zet-ng-soc_systems_top_woodchuck-wb_intercon_0/wb_intercon.vh" --lines 14
 
 // wb_mux.v:50: Signal is not used: 'wb_rst_i'
 lint_off -msg UNUSED -file "../src/wb_intercon_1.2.2/rtl/verilog/wb_mux.v" --lines 50

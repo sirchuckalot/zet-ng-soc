@@ -1,0 +1,68 @@
+CAPI=2:
+
+name: "zet-ng-soc:systems:top_woodchuck_verilator:0"
+description: "Woodchuck toplevel for simulation with Verilator"
+
+filesets:
+    files_sim_verilator:
+        depend:
+            - zet-ng-soc:systems:top_woodchuck:0
+            - glip:backend:tcp
+            - optimsoc:debug:debug_interface            
+            - wb_ram
+        files:
+            - rtl/top_woodchuck_verilator.sv: { file_type: systemVerilogSource }
+            - top_woodchuck_verilator.cpp: { file_type: cppSource }
+    
+    files_lint_verilator:
+        files:
+            - lint/verilator_waiver.vlt: {file_type: vlt}
+
+
+parameters:
+    timeout:
+        datatype : int
+        paramtype : plusarg
+
+    vcd:
+        datatype : bool
+        description : Dump VCD
+        paramtype : plusarg
+ 
+targets:
+    sim:
+        default_tool: verilator
+        filesets:
+            - tool_verilator ? (files_lint_verilator)
+            - files_sim_verilator
+        toplevel: top_woodchuck_verilator
+        parameters : [timeout, vcd]
+        tools:
+            verilator:
+                mode: cc
+                verilator_options:
+                    - "--trace"
+                    - '-CFLAGS "-std=c++11"'
+                    - '-LDFLAGS "-pthread"'
+                    - "-Wall"
+                    # XXX: Cleanup all warnings and remove this option
+                    # (or make it more fine-grained at least)
+                    - "-Wno-fatal"
+
+    lint:
+        default_tool: verilator
+        filesets:
+            # Note on Verilator waivers:
+            # You *must* include the waiver file first, otherwise only global waivers
+            # are applied, but not file-specific waivers.
+            - tool_verilator ? (files_lint_verilator)
+            - files_sim_verilator
+        toplevel: top_woodchuck_verilator
+        parameters: [timeout, vcd]
+        tools:
+            verilator:
+                mode: lint-only
+                verilator_options:
+                    - '-CFLAGS "-std=c++11"'
+                    - '-LDFLAGS "-pthread"'
+                    - "-Wall"
