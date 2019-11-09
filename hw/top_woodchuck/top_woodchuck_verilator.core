@@ -12,7 +12,7 @@ filesets:
             - wb_ram
         files:
             - rtl/top_woodchuck_verilator.sv: { file_type: systemVerilogSource }
-            - top_woodchuck_verilator.cpp: { file_type: cppSource }
+            - cpp/top_woodchuck_verilator.cpp: { file_type: cppSource }
     
     files_lint_verilator:
         files:
