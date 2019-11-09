@@ -1,0 +1,41 @@
+CAPI=2:
+
+name: "zet-ng-soc:systems:top_woodchuck:0"
+description: "Technology-independent Woodchuck toplevel"
+
+filesets:
+    files_rtl_generic:
+        depend:
+            - optimsoc:debug:debug_interface
+            - opensocdebug:modules:mam_wb
+            - wb_intercon            
+        files:
+            - rtl/top_woodchuck.sv
+        file_type: systemVerilogSource
+
+generate:
+    wb_intercon:
+        generator : wb_intercon_gen
+        parameters:
+            masters:
+                osd_mam_wb:
+                    slaves:
+                        - ext_ram
+            slaves:
+                ext_ram:
+                    datawidth: 32
+                    offset : 0x00000000
+                    size   : 0x08000000 #128MiB
+        
+targets:
+    default: &default_target
+        filesets:
+            - files_rtl_generic
+        generate : [wb_intercon]
+        toplevel: top_woodchuck
+    sim:
+        default_tool: verilator
+        filesets:
+            - files_rtl_generic
+        generate : [wb_intercon]
+        toplevel: top_woodchuck

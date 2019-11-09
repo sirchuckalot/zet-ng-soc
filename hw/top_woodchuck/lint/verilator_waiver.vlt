@@ -1,0 +1,129 @@
+// Lint waivers for Verilator
+// See https://www.veripool.org/projects/verilator/wiki/Manual-verilator#CONFIGURATION-FILES
+// for documentation.
+//
+// Important: This file must included *before* any other Verilog file is read.
+// Otherwise, only global waivers are applied, but not file-specific waivers.
+
+// Take remaining text up to the next `verilog mode switch
+// and treat it as Verilator configuration commands.
+`verilator_config
+
+// By default, globally we will not warn when PINCONNECTEMPTY is encountered
+// Not every module will have pins connected. So, this must be used with extreme caution!!!
+// If the global default can be avoided, then it is better to do use this option on a
+// per file basis when it is acceptable to do so.
+lint_off -msg PINCONNECTEMPTY
+
+// dii_channel.sv:18: Filename 'dii_channel' does not match PACKAGE name: 'dii_package'
+// Working Optimsoc reference design has the same warning
+lint_off -msg DECLFILENAME -file "../src/opensocdebug_interfaces_dii_channel_0/interfaces/common/dii_channel.sv"
+
+// glip_tcp_toplevel.sv:104: Declaration of signal hides declaration in upper scope: 'data'
+// glip_tcp_toplevel.sv:117: Declaration of signal hides declaration in upper scope: 'data'
+// Working Optimsoc reference design has the same warning
+lint_off -msg VARHIDDEN -file "../src/glip_backend_tcp_0/src/backend_tcp/logic/dpi/glip_tcp_toplevel.sv"
+
+// dii_buffer.sv:82: Declaration of signal hides declaration in upper scope: 'data'
+// Working Optimsoc reference design has the same warning
+lint_off -msg VARHIDDEN -file "../src/opensocdebug_blocks_buffer_0/blocks/buffer/common/dii_buffer.sv"
+
+// wb_common.v:45: Declaration of signal hides declaration in upper scope: 'dw'
+// This is from external repository and is acceptable warning message 
+lint_off -msg VARHIDDEN -file "../src/wb_common_1.0.3/wb_common.v"
+
+// Operator ASSIGNDLY expects 216 bits on the Assign RHS, but Assign RHS's REPLICATE generates 234 bits.
+// This is a rotate right register and it is to be expected that width will be a miss match
+lint_off -msg WIDTH -file "../src/opensocdebug_blocks_buffer_0/blocks/buffer/common/dii_buffer.sv"
+
+// wb_common.v:56: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'BTE_LINEAR' generates 2 bits.
+// wb_common.v:56: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'BTE_WRAP_4' generates 2 bits.
+// wb_common.v:56: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'BTE_WRAP_8' generates 2 bits.
+// wb_common.v:56: Operator CASE expects 3 bits on the Case Item, but Case Item's VARREF 'BTE_WRAP_16' generates 2 bits.
+// This is acceptable because only 2 bits are required to represent the four possible BTE defined types 
+lint_off -msg WIDTH -file "../src/wb_common_1.0.3/wb_common.v"
+
+// wb_common.v:56: Case values incompletely covered (example pattern 0x4)
+// This is acceptable because only 2 bits are required to represent the four possible BTE defined types
+lint_off -msg CASEINCOMPLETE -file "../src/wb_common_1.0.3/wb_common.v"
+
+// osd_mam.sv:295: Operator EQ expects 32 bits on the LHS, but LHS's VARREF 'counter' generates 4 bits.
+// osd_mam.sv:338: Operator EQ expects 32 or 6 bits on the LHS, but LHS's VARREF 'wcounter' generates 5 bits.
+// osd_mam.sv:401: Operator EQ expects 32 or 6 bits on the LHS, but LHS's VARREF 'wcounter' generates 5 bits.
+// osd_mam.sv:487: Operator EQ expects 32 or 6 bits on the LHS, but LHS's VARREF 'wcounter' generates 5 bits.
+// osd_mam.sv:491: Operator EQ expects 32 or 6 bits on the LHS, but LHS's VARREF 'wcounter' generates 5 bits.
+// Working Optimsoc reference design has the same warning
+lint_off -msg WIDTH -file "../src/opensocdebug_modules_mam_0/modules/mam/common/osd_mam.sv"
+
+// glip_tcp_toplevel.sv:35: Signal is not used: 'clk_io'
+// glip_tcp_toplevel.sv:91: Signal is not driven, nor used: 'data'
+// glip_tcp_toplevel.sv:104: Bits of signal are not used: 'data'[31:1]
+// glip_tcp_toplevel.sv:117: Bits of signal are not used: 'data'[63:16]
+// glip_tcp_toplevel.sv:163: Signal is not driven, nor used: 'port_int'
+// Working Optimsoc reference design has the same warning
+lint_off -msg UNUSED -file "../src/glip_backend_tcp_0/src/backend_tcp/logic/dpi/glip_tcp_toplevel.sv"
+
+// debug_interface.sv:63: Bits of signal are not driven, nor used: 'ring_tie'[16:0]
+// debug_interface.sv:63: Bits of signal are not used: 'ring_tie'[17]
+// debug_interface.sv:65: Signal is not driven, nor used: 'ring_tie_ready'
+// debug_interface.sv:67: Signal is not driven, nor used: 'dii_in'
+// debug_interface.sv:68: Signal is not driven, nor used: 'dii_in_ready'
+// debug_interface.sv:69: Signal is not driven, nor used: 'dii_out'
+// debug_interface.sv:70: Signal is not driven, nor used: 'dii_out_ready'
+// Working Optimsoc reference design has the same warning
+lint_off -msg UNUSED -file "../src/optimsoc_debug_debug_interface_0/src/soc/hw/debug_interface/verilog/debug_interface.sv"
+
+// osd_mam_wb.sv:70: Signal is not used: 'req_sync'
+// Working Optimsoc reference design has the same warning
+lint_off -msg UNUSED -file "../src/opensocdebug_modules_mam_wb_0/modules/mam/wishbone/osd_mam_wb.sv"
+
+// osd_scm.sv:37: Signal is not used: 'reg_size'
+// osd_scm.sv:38: Bits of signal are not used: 'reg_wdata'[15:2]
+// Working Optimsoc reference design has the same warning
+lint_off -msg UNUSED -file "../src/opensocdebug_modules_scm_0/modules/scm/common/osd_scm.sv"
+
+// glip_channel.sv:30: Signal is not used: 'clk'
+// Working Optimsoc reference design has the same warning
+lint_off -msg UNUSED -file "../src/glip_common_channel_0/src/common/logic/interface/glip_channel.sv"
+
+// osd_mam.sv:88: Signal is not used: 'reg_request'
+// osd_mam.sv:89: Signal is not used: 'reg_write'
+// osd_mam.sv:91: Signal is not used: 'reg_size'
+// osd_mam.sv:89: Signal is not used: 'reg_write'
+// osd_mam.sv:92: Signal is not used: 'reg_wdata'
+// osd_mam.sv:97: Signal is not used: 'stall'
+// osd_mam.sv:228: Signal is not driven, nor used: 'i'
+// Working Optimsoc reference design has the same warning
+lint_off -msg UNUSED -file "../src/opensocdebug_modules_mam_0/modules/mam/common/osd_mam.sv"
+
+// osd_mam_wb_if.sv:38: Signal is not used: 'write_strb'
+// Working Optimsoc reference design has the same warning
+lint_off -msg UNUSED -file "../src/opensocdebug_modules_mam_wb_0/modules/mam/wishbone/osd_mam_wb_if.sv"
+
+// osd_regaccess.sv:112: Signal is not used: 'reg_addr_internal'
+// Working Optimsoc reference design has the same warning
+lint_off -msg UNUSED -file "../src/opensocdebug_blocks_regaccess_0/blocks/regaccess/common/osd_regaccess.sv"
+
+// debug_interface.sv:81: Signal unoptimizable: Feedback to clock or circular logic
+// Working Optimsoc reference design has the same warning
+lint_off -msg UNOPTFLAT -file "../src/optimsoc_debug_debug_interface_0/src/soc/hw/debug_interface/verilog/debug_interface.sv"
+
+// osd_mam_wb.sv:48: Signal unoptimizable: Feedback to clock or circular logic
+// Working Optimsoc reference design has the same warning
+lint_off -msg UNOPTFLAT -file "../src/opensocdebug_modules_mam_wb_0/modules/mam/wishbone/osd_mam_wb.sv"
+
+// osd_regaccess_layer.sv:55: Signal unoptimizable: Feedback to clock or circular logic
+// Working Optimsoc reference design has the same warning
+lint_off -msg UNOPTFLAT -file "../src/opensocdebug_blocks_regaccess_0/blocks/regaccess/common/osd_regaccess_layer.sv"
+
+// glip_tcp_toplevel.sv:84: Blocking assignments (=) in sequential (flop or latch) block
+// Working Optimsoc reference design has the same warning
+lint_off -msg BLKSEQ -file "../src/glip_backend_tcp_0/src/backend_tcp/logic/dpi/glip_tcp_toplevel.sv"
+
+// wb_intercon.vh:13: Signal is not used: 'wb_s2m_mam_err'
+// wb_intercon.vh:14: Signal is not used: 'wb_s2m_mam_rty'
+lint_off -msg UNUSED -file "../src/zet-ng-soc-wb_intercon_0/wb_intercon.vh" --lines 13
+lint_off -msg UNUSED -file "../src/zet-ng-soc-wb_intercon_0/wb_intercon.vh" --lines 14
+
+// wb_mux.v:50: Signal is not used: 'wb_rst_i'
+lint_off -msg UNUSED -file "../src/wb_intercon_1.2.2/rtl/verilog/wb_mux.v" --lines 50
