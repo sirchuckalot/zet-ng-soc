@@ -1,0 +1,44 @@
+CAPI=2:
+
+name: "zet-ng-soc:systems:top_zet_simple:0"
+description: "Technology-independent Zet Simple toplevel"
+
+filesets:
+    files_rtl_generic:
+        depend:
+            - wb_intercon            
+#        files:
+#            - rtl/top_zet_simple.sv
+        file_type: systemVerilogSource
+
+generate:
+    wb_intercon:
+        generator : wb_intercon_gen
+        parameters:
+            masters:
+                zet_cpu:
+                    slaves:
+                        - ext
+                        - uart
+            slaves:
+                ext:
+                    datawidth: 33
+                    offset : 0x0
+                    size   : 0x200000
+                uart:
+                    datawidth : 8
+                    offset : 0x1_003F8
+                    size : 0x8
+        
+targets:
+    default: &default_target
+        filesets:
+            - files_rtl_generic
+        generate : [wb_intercon]
+        toplevel: top_zet_simple
+    sim:
+        default_tool: verilator
+        filesets:
+            - files_rtl_generic
+        generate : [wb_intercon]
+        toplevel: top_zet_simple
