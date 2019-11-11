@@ -1,0 +1,116 @@
+// Lint waivers for Verilator
+// See https://www.veripool.org/projects/verilator/wiki/Manual-verilator#CONFIGURATION-FILES
+// for documentation.
+//
+// Important: This file must included *before* any other Verilog file is read.
+// Otherwise, only global waivers are applied, but not file-specific waivers.
+
+// Take remaining text up to the next `verilog mode switch
+// and treat it as Verilator configuration commands.
+`verilator_config
+
+// ZET CPU waivers
+
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_uu.v:156: Operator ASSIGNDLY expects 35 bits on the Assign RHS, but Assign RHS's VARREF 'z' generates 34 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr8.v:30: Operator CASE expects 5 bits on the Case expression, but Case expression's VARREF 'y' generates 4 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_su.v:153: Operator NOT expects 18 bits on the LHS, but LHS's VARREF 'iq' generates 17 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_su.v:155: Operator NOT expects 18 bits on the LHS, but LHS's VARREF 'is' generates 17 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_fulladd16.v:30: Operator ADD expects 17 bits on the RHS, but RHS's VARREF 'ci' generates 1 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_othop.v:36: Logical Operator COND expects 1 bit on the Conditional Test, but Conditional Test's VARREF 'func' generates 3 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_othop.v:39: Operator SHIFTL expects 20 bits on the LHS, but LHS's VARREF 'seg' generates 16 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_othop.v:39: Operator ADD expects 20 bits on the RHS, but RHS's VARREF 'deff' generates 16 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_othop.v:40: Operator SHIFTL expects 20 bits on the LHS, but LHS's VARREF 'seg' generates 16 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_othop.v:40: Operator ADD expects 20 bits on the RHS, but RHS's VARREF 'deff2' generates 16 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_shrot.v:101: Operator EQ expects 8 bits on the LHS, but LHS's SEL generates 5 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_shrot.v:123: Operator SHIFTL expects 17 bits on the LHS, but LHS's VARREF 'x' generates 16 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_shrot.v:124: Operator GT expects 8 bits on the RHS, but RHS's CONST '5'h10' generates 5 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_shrot.v:129: Operator SHIFTL expects 9 bits on the LHS, but LHS's SEL generates 8 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_shrot.v:130: Operator GT expects 8 bits on the RHS, but RHS's CONST '5'h8' generates 5 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_muldiv.v:98: Operator EQ expects 32 bits on the RHS, but RHS's CONST '16'h8000' generates 16 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_memory_regs.v:45: Logical Operator COND expects 1 bit on the Conditional Test, but Conditional Test's VARREF 'mod' generates 2 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_memory_regs.v:46: Logical Operator COND expects 1 bit on the Conditional Test, but Conditional Test's VARREF 'mod' generates 2 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_regfile.v:77: Operator EQ expects 32 bits on the RHS, but RHS's CONST '16'h0' generates 16 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_opcode_deco.v:609: Operator ASSIGNDLY expects 4 bits on the Assign RHS, but Assign RHS's VARREF 'rm' generates 3 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_opcode_deco.v:610: Operator ASSIGNDLY expects 4 bits on the Assign RHS, but Assign RHS's VARREF 'rm' generates 3 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_opcode_deco.v:768: Operator ASSIGNDLY expects 4 bits on the Assign RHS, but Assign RHS's VARREF 'rm' generates 3 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_opcode_deco.v:769: Operator ASSIGNDLY expects 4 bits on the Assign RHS, but Assign RHS's VARREF 'rm' generates 3 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_fetch.v:98: Operator SHIFTL expects 20 bits on the LHS, but LHS's VARREF 'cs' generates 16 bits.
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_fetch.v:98: Operator ADD expects 20 bits on the RHS, but RHS's VARREF 'ip' generates 16 bits.
+lint_off -msg WIDTH -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_uu.v"
+lint_off -msg WIDTH -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr8.v"
+lint_off -msg WIDTH -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_su.v"
+lint_off -msg WIDTH -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_fulladd16.v"
+lint_off -msg WIDTH -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_othop.v"
+lint_off -msg WIDTH -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_shrot.v"
+lint_off -msg WIDTH -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_muldiv.v"
+lint_off -msg WIDTH -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_memory_regs.v"
+lint_off -msg WIDTH -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_regfile.v"
+lint_off -msg WIDTH -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_opcode_deco.v"
+lint_off -msg WIDTH -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_fetch.v"
+
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_decode.v:31: Signal is not used: 'ld_base'
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_exec.v:28: Bits of signal are not used: 'ir'[31]
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_muldiv.v:35: Bits of signal are not used: 'p'[33:32]
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_muldiv.v:41: Bits of signal are not used: 's'[17:16]
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_su.v:91: Signal is not used: 'idiv0'
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_uu.v:103: Bits of signal are not used: 'qi'[16]
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_uu.v:113: Bits of signal are not used: 'tmp'[34,16:0]
+lint_off -msg UNUSED -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_decode.v"
+lint_off -msg UNUSED -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_exec.v"
+lint_off -msg UNUSED -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_muldiv.v"
+lint_off -msg UNUSED -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_su.v"
+lint_off -msg UNUSED -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_uu.v"
+
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_fetch.v:175: Case values incompletely covered (example pattern 0x4)
+lint_off -msg CASEINCOMPLETE -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_fetch.v"
+
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_opcode_deco.v:1081: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_memory_regs.v:37: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_uu.v:147: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_uu.v:156: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_uu.v:176: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_uu.v:177: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr8.v:31: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr8.v:39: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr8.v:38: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr8.v:37: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr8.v:36: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr8.v:35: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr8.v:34: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr8.v:33: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr8.v:32: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:31: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:47: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:46: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:45: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:44: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:43: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:42: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:41: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:40: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:39: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:38: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:37: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:36: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:35: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:34: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:33: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v:32: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_jmp_cond.v:44: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_wb_master.v:108: Delayed assignments (<=) in non-clocked (non flop or latch) block
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_wb_master.v:119: Delayed assignments (<=) in non-clocked (non flop or latch) block
+lint_off -msg COMBDLY -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_opcode_deco.v"
+lint_off -msg COMBDLY -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_memory_regs.v"
+lint_off -msg COMBDLY -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_uu.v"
+lint_off -msg COMBDLY -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr8.v"
+lint_off -msg COMBDLY -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_rxr16.v"
+lint_off -msg COMBDLY -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_jmp_cond.v"
+lint_off -msg COMBDLY -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_wb_master.v"
+
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_opcode_deco.v:72: Suggest casez (with ?'s) in place of casex (with X's)
+lint_off -msg CASEX -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_opcode_deco.v"
+
+// This actually produced an error. Disabling this check might break things!!
+// ../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_uu.v:131: Unsupported: Blocked and non-blocking assignments to same variable
+// reg [d_width:0] div0_pipe, ovf_pipe;
+lint_off -msg BLKANDNBLK -file "../src/marmolejo_zet_cpu_1.3.1/cores/zet/rtl/zet_div_uu.v"
