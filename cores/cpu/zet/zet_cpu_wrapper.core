@@ -1,6 +1,6 @@
 CAPI=2:
 
-name: sirchuckalot:zet:zet_cpu_wrapper:0
+name: sirchuckalot:cpu:zet-cpu-wrapper:0
 
 filesets:
   zet_cpu_wrapper_rtl:
@@ -8,9 +8,9 @@ filesets:
       - rtl/zet_cpu_wrapper.sv
     file_type: systemVerilogSource
     depend:
-        - laanstragj:zet:pic:0
-        - marmolejo:zet:cpu:1.3.1
-        - sirchuckalot:zet:zet_cpu_switch:0
+        - laanstragj:cpu:zet-cpu-pic:0
+        - marmolejo:cpu:zet-cpu:1.3.1
+        - sirchuckalot:cpu:zet-cpu-switch:0
 
 targets:
   lint:

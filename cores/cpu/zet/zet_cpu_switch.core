@@ -1,6 +1,6 @@
 CAPI=2:
 
-name: sirchuckalot:zet:zet_cpu_switch:0
+name: sirchuckalot:cpu:zet-cpu-switch:0
 
 filesets:
   zet_cpu_switch_rtl:
