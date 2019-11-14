@@ -9,7 +9,7 @@ filesets:
             - optimsoc:debug:debug_interface
             - opensocdebug:modules:mam_wb
             - wb_intercon
-            - sirchuckalot:zet:zet_cpu_wrapper
+            - sirchuckalot:cpu:zet-cpu-wrapper:0
             - alexforencich:verilog-wishbone:wb_adapter
         files:
             - rtl/top_woodchuck.sv
