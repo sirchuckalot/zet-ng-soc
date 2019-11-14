@@ -8,7 +8,9 @@ filesets:
         depend:
             - optimsoc:debug:debug_interface
             - opensocdebug:modules:mam_wb
-            - wb_intercon            
+            - wb_intercon
+            - sirchuckalot:zet:zet_cpu_wrapper
+            - alexforencich:verilog-wishbone:wb_adapter
         files:
             - rtl/top_woodchuck.sv
         file_type: systemVerilogSource
@@ -18,7 +20,10 @@ generate:
         generator : wb_intercon_gen
         parameters:
             masters:
-                osd_mam_wb:
+                osd_mam:
+                    slaves:
+                        - ext_ram
+                zet_cpu:
                     slaves:
                         - ext_ram
             slaves:

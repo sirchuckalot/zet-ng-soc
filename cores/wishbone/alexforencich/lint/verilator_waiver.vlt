@@ -1,0 +1,15 @@
+// Lint waivers for Verilator
+// See https://www.veripool.org/projects/verilator/wiki/Manual-verilator#CONFIGURATION-FILES
+// for documentation.
+//
+// Important: This file must included *before* any other Verilog file is read.
+// Otherwise, only global waivers are applied, but not file-specific waivers.
+
+// Take remaining text up to the next `verilog mode switch
+// and treat it as Verilator configuration commands.
+`verilator_config
+
+// %Warning-PINMISSING: ../src/alexforencich_verilog-wishbone_wb_adapter_0/rtl/priority_encoder.v:71: Cell has missing pin: 'output_unencoded'
+// %Warning-PINMISSING: ../src/alexforencich_verilog-wishbone_wb_adapter_0/rtl/priority_encoder.v:80: Cell has missing pin: 'output_unencoded'
+lint_off -msg PINMISSING -file "../src/alexforencich_verilog-wishbone_wb_adapter_0/rtl/priority_encoder.v" -lines 71
+lint_off -msg PINMISSING -file "../src/alexforencich_verilog-wishbone_wb_adapter_0/rtl/priority_encoder.v" -lines 80
