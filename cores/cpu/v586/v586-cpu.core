@@ -1,0 +1,48 @@
+CAPI=2:
+
+name: valptek:cpu:v586-cpu:0
+description: Valptek v586 CPU Processor with AXI4 interface
+
+filesets:
+    cpu_rtl:
+        files:
+            - core_rtl/v586.v
+            - core_rtl/acu.v
+            - core_rtl/arithbox.v
+            - core_rtl/datacache.v
+            - core_rtl/realign.v
+            - core_rtl/shiftbox.v
+            - core_rtl/synthetic_op.v
+        file_type: verilogSource
+
+    cpu_notech_rtl:
+        files:
+            - gate_rtl/notech_and2.v
+            - gate_rtl/notech_and3.v
+            - gate_rtl/notech_and4.v
+            - gate_rtl/notech_ao3.v
+            - gate_rtl/notech_ao4.v
+            - gate_rtl/notech_fa2.v
+            - gate_rtl/notech_ha2.v
+            - gate_rtl/notech_inv.v
+            - gate_rtl/notech_mux2.v
+            - gate_rtl/notech_mux4.v
+            - gate_rtl/notech_nand2.v
+            - gate_rtl/notech_nand3.v
+            - gate_rtl/notech_nao3.v
+            - gate_rtl/notech_nor2.v
+            - gate_rtl/notech_or2.v
+            - gate_rtl/notech_or4.v
+            - gate_rtl/notech_reg.v
+            - gate_rtl/notech_reg_set.v
+            - gate_rtl/notech_xor2.v   
+        file_type: verilogSource
+
+targets:
+    default:
+        filesets: [cpu_rtl, cpu_notech_rtl]
+ 
+provider:
+  name : github
+  user : valptek
+  repo : v586
