@@ -1,6 +1,6 @@
 CAPI=2:
 
-name : ::ao486-cpu:0
+name : alfikpl:cpu:ao486-cpu:0
 description: ao486 cpu processor core files
 
 filesets:
