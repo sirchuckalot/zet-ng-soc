@@ -96,6 +96,9 @@ ao486 ao486 (
     .avm_address(avm_address),
     .avm_writedata(avm_writedata),
     .avm_byteenable(avm_byteenable),
+    // CPU will request burst but our current avalon_to_wb_bridge does not
+    // support it. In this case, burst requests will fall back to single
+    // cycle transfers. Supporting bursts will improve performance.
     .avm_burstcount(avm_burstcount),
     .avm_write(avm_write),
     .avm_read(avm_read),
@@ -131,7 +134,9 @@ avalon_to_wb_bridge #(
     .s_av_byteenable_i(avm_byteenable),
     .s_av_read_i(avm_read),
     .s_av_readdata_o(avm_readdata),
-    .s_av_burstcount_i(avm_burstcount),
+    /* verilator lint_off UNUSED */
+    .s_av_burstcount_i({5'b00000, avm_burstcount}), // ao486 only supports 8 burst count
+    /* verilator lint_on UNUSED */
     .s_av_write_i(avm_write),
     .s_av_writedata_i(avm_writedata),
     .s_av_waitrequest_o(avm_waitrequest),
@@ -161,11 +166,13 @@ avalon_to_wb_bridge #(
     .wb_rst_i(cpu_rst_i),
   
     // Avalon Slave input
-    .s_av_address_i(avalon_io_address),
+    .s_av_address_i({16'b0, avalon_io_address}), // ao486 only supports 16 bit io addressing
     .s_av_byteenable_i(avalon_io_byteenable),
     .s_av_read_i(avalon_io_read),
     .s_av_readdata_o(avalon_io_readdata),
-    .s_av_burstcount_i(avalon_io_burstcount),
+    /* verilator lint_off UNUSED */
+    .s_av_burstcount_i(8'b00000000), // cpu io port does not support bursting
+    /* verilator lint_on UNUSED */
     .s_av_write_i(avalon_io_write),
     .s_av_writedata_i(avalon_io_writedata),
     .s_av_waitrequest_o(avalon_io_waitrequest),

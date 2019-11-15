@@ -116,8 +116,14 @@ endgenerate
 ////////////////////////////////////////////////////////////////////////
 
 // Unused connections
-// wire wb_s2m_osd_mam_err;
-// wire wb_s2m_osd_mam_rty;
+
+/* verilator lint_off UNUSED */
+logic [1:0] osd_mam_unused_ok;
+assign osd_mam_unused_ok = {
+    wb_s2m_osd_mam_err,
+    wb_s2m_osd_mam_rty};
+/* verilator lint_on UNUSED */
+
 osd_mam_wb #(
     .DATA_WIDTH(32),
     .ADDR_WIDTH(MEM_ADDR_WIDTH),
