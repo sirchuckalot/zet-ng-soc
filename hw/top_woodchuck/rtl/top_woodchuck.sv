@@ -147,114 +147,50 @@ u_mam_dm_wb(
 
 ////////////////////////////////////////////////////////////////////////
 //
-// ZET CPU Wrapper
+// ao486 CPU Wrapper
 //
 ////////////////////////////////////////////////////////////////////////
 
-// ZET CPU Wrapper
+ao486_cpu_wb_wrapper #(
+    .AW(32),
+    .DW(32)
+) ao486 (
+    .cpu_clk_i(clk),
+    .cpu_rst_i(rst_cpu),
 
-// ZET Master to Wishbone adapter wires
-logic [15:0] wb_zet_cpu_wrapper_dat_i;
-logic [15:0] wb_zet_cpu_wrapper_dat_o;
-logic [20:1] wb_zet_cpu_wrapper_adr_o;
-logic [ 1:0] wb_zet_cpu_wrapper_sel_o;
-logic        wb_zet_cpu_wrapper_we_o;
-logic        wb_zet_cpu_wrapper_cyc_o;
-logic        wb_zet_cpu_wrapper_stb_o;
-logic        wb_zet_cpu_wrapper_ack_i;
+     // Memory Master Interface
+    .wbm_cpu_mem_adr_o(wb_m2s_ao486_cpu_mem_adr),
+    .wbm_cpu_mem_dat_o(wb_m2s_ao486_cpu_mem_dat),
+    .wbm_cpu_mem_sel_o(wb_m2s_ao486_cpu_mem_sel),
+    .wbm_cpu_mem_we_o(wb_m2s_ao486_cpu_mem_we),
+    .wbm_cpu_mem_cyc_o(wb_m2s_ao486_cpu_mem_cyc),
+    .wbm_cpu_mem_stb_o(wb_m2s_ao486_cpu_mem_stb),
+    .wbm_cpu_mem_cti_o(wb_m2s_ao486_cpu_mem_cti),
+    .wbm_cpu_mem_bte_o(wb_m2s_ao486_cpu_mem_bte),
+    .wbm_cpu_mem_dat_i(wb_s2m_ao486_cpu_mem_dat),
+    .wbm_cpu_mem_ack_i(wb_s2m_ao486_cpu_mem_ack),
+    .wbm_cpu_mem_err_i(wb_s2m_ao486_cpu_mem_err),
+    .wbm_cpu_mem_rty_i(wb_s2m_ao486_cpu_mem_rty),
 
-zet_cpu_wrapper
-    #(.s0_addr_1(21'h0_00000), // mem 0x00000 - 0xfffff
-      .s0_mask_1(21'h1_00000), // Base RAM
-      .s0_addr_2(21'h1_00000), // io  0x00000 - 0xfffff
-      .s0_mask_2(21'h1_00000), // Base io
+    // IO Master Interface
+    .wbm_cpu_io_adr_o(wb_m2s_ao486_cpu_io_adr),
+    .wbm_cpu_io_dat_o(wb_m2s_ao486_cpu_io_dat),
+    .wbm_cpu_io_sel_o(wb_m2s_ao486_cpu_io_sel),
+    .wbm_cpu_io_we_o(wb_m2s_ao486_cpu_io_we),
+    .wbm_cpu_io_cyc_o(wb_m2s_ao486_cpu_io_cyc),
+    .wbm_cpu_io_stb_o(wb_m2s_ao486_cpu_io_stb),
+    .wbm_cpu_io_cti_o(wb_m2s_ao486_cpu_io_cti),
+    .wbm_cpu_io_bte_o(wb_m2s_ao486_cpu_io_bte),
+    .wbm_cpu_io_dat_i(wb_s2m_ao486_cpu_io_dat),
+    .wbm_cpu_io_ack_i(wb_s2m_ao486_cpu_io_ack),
+    .wbm_cpu_io_err_i(wb_s2m_ao486_cpu_io_err),
+    .wbm_cpu_io_rty_i(wb_s2m_ao486_cpu_io_rty),
 
-      .s1_addr_1(21'h0_00000), //
-      .s1_mask_1(21'h1_FFFFF), // not used
-      .s1_addr_2(21'h1_00000),
-      .s1_mask_2(21'h1_00000), // not used
-
-      .sE_addr_1(21'h1_000A0), // io 0x00A0 - 0x00A1
-      .sE_mask_1(21'h1_0FFFE), // 8259A Slave Interrupt Controller
-
-      .sF_addr_1(21'h1_00020), // io 0x0020 - 0x0021
-      .sF_mask_1(21'h1_0FFFE)  // 8259A Master Interrupt Controller
-     ) zet_cpu_wrapper (
-      .cpu_clk_i(wb_clk),
-      .cpu_rst_i(rst_cpu),
-        
-      // Slave 0 interface
-      .s0_dat_i(wb_zet_cpu_wrapper_dat_i), // input  [15:0] s0_dat_i
-      .s0_dat_o(wb_zet_cpu_wrapper_dat_o), // output [15:0] s0_dat_o
-      .s0_adr_o(wb_zet_cpu_wrapper_adr_o), // output [20:1] s0_adr_o
-      .s0_sel_o(wb_zet_cpu_wrapper_sel_o), // output [ 1:0] s0_sel_o
-      .s0_we_o(wb_zet_cpu_wrapper_we_o),   // output        s0_we_o
-      .s0_cyc_o(wb_zet_cpu_wrapper_cyc_o), // output        s0_cyc_o
-      .s0_stb_o(wb_zet_cpu_wrapper_stb_o), // output        s0_stb_o
-      .s0_ack_i(wb_zet_cpu_wrapper_ack_i), // input         s0_ack_i
-        
-      // Slave 1 interface
-      .s1_dat_i(),
-      .s1_dat_o(),
-      .s1_adr_o(),
-      .s1_sel_o(),
-      .s1_we_o(),
-      .s1_cyc_o(),
-      .s1_stb_o(),
-      .s1_ack_i(),
-    
-      // CPU PIC Interrupts
-      .pic_intv_i(), // input  [15:0] pic_intv_i
-      .pic_nmi_i(),  // input         pic_nmi_i
-
-      // CPU Program Counter
-      .cpu_pc_o()    // output [19:0] cpu_pc_o
-     );
-
-// Wishbone Adapter
-
-// Unused signals
-// wb_m2s_zet_cpu_cti
-// wb_m2s_zet_cpu_bte
-localparam WB_ADAPTER_ADDR_WIDTH = 32;
-localparam WB_ADAPTER_WBM_DATA_WIDTH = 16;
-localparam WB_ADAPTER_WBM_SELECT_WIDTH = (WB_ADAPTER_WBM_DATA_WIDTH/8);
-localparam WB_ADAPTER_WBS_DATA_WIDTH = 32;
-localparam WB_ADAPTER_WBS_SELECT_WIDTH = (WB_ADAPTER_WBS_DATA_WIDTH/8);
-wb_adapter
-    #(.ADDR_WIDTH(WB_ADAPTER_ADDR_WIDTH),             // width of address bus in bits
-      .WBM_DATA_WIDTH(WB_ADAPTER_WBM_DATA_WIDTH),     // width of master data bus in bits (8, 16, 32, or 64)
-      .WBM_SELECT_WIDTH(WB_ADAPTER_WBM_SELECT_WIDTH), // width of master word select bus (1, 2, 4, or 8)
-      .WBS_DATA_WIDTH(WB_ADAPTER_WBS_DATA_WIDTH),     // width of slave data bus in bits (8, 16, 32, or 64)
-      .WBS_SELECT_WIDTH(WB_ADAPTER_WBS_SELECT_WIDTH)  // width of slave word select bus (1, 2, 4, or 8)
-    ) wb_adapter (
-        .clk(clk),                                    // input wire clk
-        .rst(rst_cpu),                                // input wire rst
-
-        // Wishbone master input
-        .wbm_adr_i(wb_zet_cpu_wrapper_adr_o),         // input  wire [ADDR_WIDTH-1:0]       wbm_adr_i
-        .wbm_dat_i(wb_zet_cpu_wrapper_dat_o),         // input  wire [WBM_DATA_WIDTH-1:0]   wbm_dat_i
-        .wbm_dat_o(wb_zet_cpu_wrapper_dat_i),         // output wire [WBM_DATA_WIDTH-1:0]   wbm_dat_o
-        .wbm_we_i(wb_zet_cpu_wrapper_we_o),           // input  wire                        wbm_we_i
-        .wbm_sel_i(wb_zet_cpu_wrapper_sel_o),         // input  wire [WBM_SELECT_WIDTH-1:0] wbm_sel_i
-        .wbm_stb_i(wb_zet_cpu_wrapper_stb_o),         // input  wire                        wbm_stb_i
-        .wbm_ack_o(wb_zet_cpu_wrapper_ack_i),         // output wire                        wbm_ack_o
-        .wbm_err_o(),                                 // output wire                        wbm_err_o
-        .wbm_rty_o(),                                 // output wire                        wbm_rty_o
-        .wbm_cyc_i(wb_zet_cpu_wrapper_cyc_o),         // input  wire                        wbm_cyc_i
-
-        // Wishbone slave output
-       .wbs_adr_o(wb_m2s_zet_cpu_adr),                // output wire [ADDR_WIDTH-1:0]       wbs_adr_o
-       .wbs_dat_i(wb_s2m_zet_cpu_dat),                // input  wire [WBS_DATA_WIDTH-1:0]   wbs_dat_i
-       .wbs_dat_o(wb_m2s_zet_cpu_dat),                // output wire [WBS_DATA_WIDTH-1:0]   wbs_dat_o
-       .wbs_we_o(wb_m2s_zet_cpu_we),                  // output wire                        wbs_we_o
-       .wbs_sel_o(wb_m2s_zet_cpu_sel),                // output wire [WBS_SELECT_WIDTH-1:0] wbs_sel_o
-       .wbs_stb_o(wb_m2s_zet_cpu_stb),                // output wire                        wbs_stb_o
-       .wbs_ack_i(wb_s2m_zet_cpu_ack),                // input  wire                        wbs_ack_i
-       .wbs_err_i(wb_s2m_zet_cpu_err),                // input  wire                        wbs_err_i
-       .wbs_rty_i(wb_s2m_zet_cpu_rty),                // input  wire                        wbs_rty_i
-       .wbs_cyc_o(wb_m2s_zet_cpu_cyc)                 // output wire                        wbs_cyc_o
-    );
+    // CPU PIC Interrupts
+    .interrupt_do(),
+    .interrupt_vector(),
+    .interrupt_done()
+);
 
 ////////////////////////////////////////////////////////////////////////
 //
