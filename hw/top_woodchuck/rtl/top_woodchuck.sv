@@ -160,7 +160,7 @@ u_mam_dm_wb(
 ao486_cpu_wb_wrapper #(
     .AW(32),
     .DW(32)
-) ao486 (
+) ao486_cpu_wb_wrapper (
     .cpu_clk_i(clk),
     .cpu_rst_i(rst_cpu),
 
