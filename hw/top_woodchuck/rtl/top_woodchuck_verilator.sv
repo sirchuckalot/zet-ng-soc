@@ -202,6 +202,17 @@ wb_ram
      .wb_dat_o (wb_mem_dat_i),
      .wb_ack_o (wb_mem_ack_i),
      .wb_err_o (wb_mem_err_i));
+
+// Support loading ZET data.rtlrom stub test as a BIOS
+reg [1023:0] data_rtlrom;
+
+initial begin
+    $write("\n\n"); // New line for easier read
+    if ($value$plusargs("data_rtlrom=%s", data_rtlrom)) begin
+        $display("Loading data.rtlrom contents from %0s", data_rtlrom);
+        $readmemh(data_rtlrom, wb_ram.ram0.mem, 19'h78000);
+    end
+end
     
 // When not using Verilator, we need this to support capturing vcd signals
 `ifndef VERILATOR

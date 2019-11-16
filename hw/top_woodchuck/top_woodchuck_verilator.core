@@ -28,6 +28,10 @@ parameters:
         datatype : bool
         description : Dump VCD
         paramtype : plusarg
+    data_rtlrom:
+        datatype: file
+        description : ZET Test data.rtlrom  stub test as a BIOS
+        paramtype : plusarg
  
 targets:
     sim:
@@ -36,7 +40,7 @@ targets:
             - tool_verilator ? (files_lint_verilator)
             - files_sim_verilator
         toplevel: top_woodchuck_verilator
-        parameters : [timeout, vcd]
+        parameters : [timeout, vcd, data_rtlrom]
         tools:
             verilator:
                 mode: cc
