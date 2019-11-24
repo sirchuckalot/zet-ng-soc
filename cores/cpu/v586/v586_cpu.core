@@ -1,6 +1,6 @@
 CAPI=2:
 
-name: valptek:cpu:v586-cpu:0
+name: valptek:cpu:v586_cpu:0
 description: Valptek v586 CPU Processor with AXI4 interface
 
 filesets:
