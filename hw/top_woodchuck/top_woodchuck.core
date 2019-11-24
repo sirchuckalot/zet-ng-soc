@@ -34,7 +34,7 @@ generate:
                 ext_ram:
                     datawidth: 32
                     offset : 0x00000000
-                    size   : 0x08000000 #128MiB
+                    size   : 0xffff_ffff
         
 targets:
     default: &default_target
