@@ -1,0 +1,16 @@
+// Lint waivers for Verilator
+// See https://www.veripool.org/projects/verilator/wiki/Manual-verilator#CONFIGURATION-FILES
+// for documentation.
+//
+// Important: This file must included *before* any other Verilog file is read.
+// Otherwise, only global waivers are applied, but not file-specific waivers.
+
+// Take remaining text up to the next `verilog mode switch
+// and treat it as Verilator configuration commands.
+`verilator_config
+
+// v586 CPU waivers
+lint_off -msg PINMISSING -file "../src/valptek_cpu_v586_cpu_0/core_rtl/v586.v"
+lint_off -msg IMPLICIT -file "../src/valptek_cpu_v586_cpu_0/core_rtl/v586.v"
+lint_off -msg WIDTH -file "../src/valptek_cpu_v586_cpu_0/core_rtl/v586.v"
+lint_off -msg UNDRIVEN -file "../src/valptek_cpu_v586_cpu_0/core_rtl/v586.v"
