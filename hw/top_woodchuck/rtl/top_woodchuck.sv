@@ -153,49 +153,51 @@ u_mam_dm_wb(
 
 ////////////////////////////////////////////////////////////////////////
 //
-// ao486 CPU Wrapper
+// CPU Wrapper
 //
 ////////////////////////////////////////////////////////////////////////
 
-ao486_cpu_wb_wrapper #(
+v586_cpu_wb_wrapper #(
     .AW(32),
     .DW(32)
-) ao486_cpu_wb_wrapper (
+) cpu_wb_wrapper (
     .cpu_clk_i(clk),
     .cpu_rst_i(rst_cpu),
 
      // Memory Master Interface
-    .wbm_cpu_mem_adr_o(wb_m2s_ao486_cpu_mem_adr),
-    .wbm_cpu_mem_dat_o(wb_m2s_ao486_cpu_mem_dat),
-    .wbm_cpu_mem_sel_o(wb_m2s_ao486_cpu_mem_sel),
-    .wbm_cpu_mem_we_o(wb_m2s_ao486_cpu_mem_we),
-    .wbm_cpu_mem_cyc_o(wb_m2s_ao486_cpu_mem_cyc),
-    .wbm_cpu_mem_stb_o(wb_m2s_ao486_cpu_mem_stb),
-    .wbm_cpu_mem_cti_o(wb_m2s_ao486_cpu_mem_cti),
-    .wbm_cpu_mem_bte_o(wb_m2s_ao486_cpu_mem_bte),
-    .wbm_cpu_mem_dat_i(wb_s2m_ao486_cpu_mem_dat),
-    .wbm_cpu_mem_ack_i(wb_s2m_ao486_cpu_mem_ack),
-    .wbm_cpu_mem_err_i(wb_s2m_ao486_cpu_mem_err),
-    .wbm_cpu_mem_rty_i(wb_s2m_ao486_cpu_mem_rty),
+    .wbm_cpu_mem_adr_o(wb_m2s_cpu_mem_adr),
+    .wbm_cpu_mem_dat_o(wb_m2s_cpu_mem_dat),
+    .wbm_cpu_mem_sel_o(wb_m2s_cpu_mem_sel),
+    .wbm_cpu_mem_we_o(wb_m2s_cpu_mem_we),
+    .wbm_cpu_mem_cyc_o(wb_m2s_cpu_mem_cyc),
+    .wbm_cpu_mem_stb_o(wb_m2s_cpu_mem_stb),
+    .wbm_cpu_mem_cti_o(wb_m2s_cpu_mem_cti),
+    .wbm_cpu_mem_bte_o(wb_m2s_cpu_mem_bte),
+    .wbm_cpu_mem_dat_i(wb_s2m_cpu_mem_dat),
+    .wbm_cpu_mem_ack_i(wb_s2m_cpu_mem_ack),
+    .wbm_cpu_mem_err_i(wb_s2m_cpu_mem_err),
+    .wbm_cpu_mem_rty_i(wb_s2m_cpu_mem_rty),
 
     // IO Master Interface
-    .wbm_cpu_io_adr_o(wb_m2s_ao486_cpu_io_adr),
-    .wbm_cpu_io_dat_o(wb_m2s_ao486_cpu_io_dat),
-    .wbm_cpu_io_sel_o(wb_m2s_ao486_cpu_io_sel),
-    .wbm_cpu_io_we_o(wb_m2s_ao486_cpu_io_we),
-    .wbm_cpu_io_cyc_o(wb_m2s_ao486_cpu_io_cyc),
-    .wbm_cpu_io_stb_o(wb_m2s_ao486_cpu_io_stb),
-    .wbm_cpu_io_cti_o(wb_m2s_ao486_cpu_io_cti),
-    .wbm_cpu_io_bte_o(wb_m2s_ao486_cpu_io_bte),
-    .wbm_cpu_io_dat_i(wb_s2m_ao486_cpu_io_dat),
-    .wbm_cpu_io_ack_i(wb_s2m_ao486_cpu_io_ack),
-    .wbm_cpu_io_err_i(wb_s2m_ao486_cpu_io_err),
-    .wbm_cpu_io_rty_i(wb_s2m_ao486_cpu_io_rty),
+    .wbm_cpu_io_adr_o(wb_m2s_cpu_io_adr),
+    .wbm_cpu_io_dat_o(wb_m2s_cpu_io_dat),
+    .wbm_cpu_io_sel_o(wb_m2s_cpu_io_sel),
+    .wbm_cpu_io_we_o(wb_m2s_cpu_io_we),
+    .wbm_cpu_io_cyc_o(wb_m2s_cpu_io_cyc),
+    .wbm_cpu_io_stb_o(wb_m2s_cpu_io_stb),
+    .wbm_cpu_io_cti_o(wb_m2s_cpu_io_cti),
+    .wbm_cpu_io_bte_o(wb_m2s_cpu_io_bte),
+    .wbm_cpu_io_dat_i(wb_s2m_cpu_io_dat),
+    .wbm_cpu_io_ack_i(wb_s2m_cpu_io_ack),
+    .wbm_cpu_io_err_i(wb_s2m_cpu_io_err),
+    .wbm_cpu_io_rty_i(wb_s2m_cpu_io_rty),
 
     // CPU PIC Interrupts
     .interrupt_do(),
     .interrupt_vector(),
-    .interrupt_done()
+    .interrupt_done(),
+    
+    .debug_o()
 );
 
 ////////////////////////////////////////////////////////////////////////

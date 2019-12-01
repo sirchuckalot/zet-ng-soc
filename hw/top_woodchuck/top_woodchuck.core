@@ -9,7 +9,8 @@ filesets:
             - optimsoc:debug:debug_interface
             - opensocdebug:modules:mam_wb
             - wb_intercon
-            - ao486_cpu_wb_wrapper
+            - v586_cpu_wb_wrapper
+#            - ao486_cpu_wb_wrapper
 #            - sirchuckalot:cpu:zet-cpu-wrapper:0
 #            - alexforencich:verilog-wishbone:wb_adapter
         files:
@@ -24,10 +25,10 @@ generate:
                 osd_mam:
                     slaves:
                         - ext_ram
-                ao486_cpu_mem:
+                cpu_mem:
                     slaves:
                         - ext_ram
-                ao486_cpu_io:
+                cpu_io:
                     slaves:
                         - ext_ram
             slaves:

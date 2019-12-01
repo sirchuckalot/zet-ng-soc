@@ -207,9 +207,6 @@ reg [1023:0] bootblock_init_file;
 int bootblock_address;
 
 initial begin
-    // Wait until reset has been released
-    @(posedge rst_sys);
-
     if ($value$plusargs("bootblock_init_file=%s", bootblock_init_file)) begin
         $display("Loading ROM contents from: %0s", bootblock_init_file);
     end
@@ -222,7 +219,7 @@ initial begin
     $readmemh(bootblock_init_file, wb_ram.ram0.mem, bootblock_address);
     
     // First test instruction
-    wb_ram.ram0.mem[32'hffff_fff0] = 32'hEA_EA_EA_EA;
+//    wb_ram.ram0.mem[32'hffff_fff0] = 32'hEA_EA_EA_EA;
 end
 
 // When not using Verilator, we need this to support capturing vcd signals
