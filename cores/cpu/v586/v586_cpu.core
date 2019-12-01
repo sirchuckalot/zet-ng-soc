@@ -37,11 +37,16 @@ filesets:
             - gate_rtl/notech_reg_set.v
             - gate_rtl/notech_xor2.v   
         file_type: verilogSource
-
+    
+    files_lint_verilator:
+        files:
+            - lint/cpu_rtl_verilator_waiver.vlt: {file_type: vlt}
 targets:
     default:
-        filesets: [cpu_rtl, cpu_notech_rtl]
- 
+        filesets:
+            - tool_verilator ? (files_lint_verilator)
+            - cpu_rtl
+            - cpu_notech_rtl
 provider:
   name : github
   user : valptek

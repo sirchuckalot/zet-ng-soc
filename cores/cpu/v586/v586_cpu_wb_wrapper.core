@@ -1,0 +1,31 @@
+CAPI=2:
+
+name: ::v586_cpu_wb_wrapper:0
+
+filesets:
+  v586_wb_wrapper_rtl:
+    depend:
+        - valptek:cpu:v586_cpu
+        - zipcpu:wb2axip:wb_axi4_bridge
+    files:
+        - rtl/v586_cpu_wb_wrapper.sv
+    file_type: systemVerilogSource
+    
+
+targets:
+  lint:
+        default_tool: verilator
+        filesets:
+            - v586_wb_wrapper_rtl
+        toplevel: v586_cpu_wb_wrapper
+        tools:
+            verilator:
+                mode: lint-only
+                verilator_options:
+                    - '-CFLAGS "-std=c++11"'
+                    - '-LDFLAGS "-pthread"'
+                    - "-Wall"
+  
+  default:
+    filesets: [v586_wb_wrapper_rtl]
+ 
