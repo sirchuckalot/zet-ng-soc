@@ -1,0 +1,31 @@
+CAPI=2:
+
+name: sirchuckalot:cpu:zet-cpu-wrapper:0
+
+filesets:
+  zet_cpu_wrapper_rtl:
+    files:
+      - rtl/zet_cpu_wrapper.sv
+    file_type: systemVerilogSource
+    depend:
+        - laanstragj:cpu:zet-cpu-pic:0
+        - marmolejo:cpu:zet-cpu:1.3.1
+        - sirchuckalot:cpu:zet-cpu-switch:0
+
+targets:
+  lint:
+        default_tool: verilator
+        filesets:
+            - zet_cpu_wrapper_rtl
+        toplevel: zet_cpu_wrapper
+        tools:
+            verilator:
+                mode: lint-only
+                verilator_options:
+                    - '-CFLAGS "-std=c++11"'
+                    - '-LDFLAGS "-pthread"'
+                    - "-Wall"
+  
+  default:
+    filesets: [zet_cpu_wrapper_rtl]
+ 

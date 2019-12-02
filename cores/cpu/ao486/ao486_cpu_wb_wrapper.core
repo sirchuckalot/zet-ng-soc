@@ -1,23 +1,23 @@
 CAPI=2:
 
-name: sirchuckalot:zet:zet_cpu_wrapper:0
+name: ::ao486_cpu_wb_wrapper:1.1
 
 filesets:
-  zet_cpu_wrapper_rtl:
-    files:
-      - rtl/zet_cpu_wrapper.sv
-    file_type: systemVerilogSource
+  ao486_wb_wrapper_rtl:
     depend:
-        - laanstragj:zet:pic:0
-        - marmolejo:zet:cpu:1.3.1
-        - sirchuckalot:zet:zet_cpu_switch:0
+        - alfikpl:cpu:ao486_cpu:1.1
+        - wb_avalon_bridge
+    files:
+        - rtl/ao486_cpu_wb_wrapper.sv
+    file_type: systemVerilogSource
+    
 
 targets:
   lint:
         default_tool: verilator
         filesets:
-            - zet_cpu_wrapper_rtl
-        toplevel: zet_cpu_wrapper
+            - ao486_wb_wrapper_rtl
+        toplevel: ao486_cpu_wb_wrapper
         tools:
             verilator:
                 mode: lint-only
@@ -27,5 +27,5 @@ targets:
                     - "-Wall"
   
   default:
-    filesets: [zet_cpu_wrapper_rtl]
+    filesets: [ao486_wb_wrapper_rtl]
  

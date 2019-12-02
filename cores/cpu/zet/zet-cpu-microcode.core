@@ -1,6 +1,6 @@
 CAPI=2:
 
-name: marmolejo:zet:cpu-microcode:1.3.1
+name: marmolejo:cpu:zet-cpu-microcode:1.3.1
 
 filesets:
   local_cpu_microcode:

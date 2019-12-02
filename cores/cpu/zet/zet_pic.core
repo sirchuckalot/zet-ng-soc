@@ -1,6 +1,6 @@
 CAPI=2:
 
-name: laanstragj:zet:pic:0
+name: laanstragj:cpu:zet-cpu-pic:0
 
 filesets:
   pic_rtl:

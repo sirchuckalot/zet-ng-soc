@@ -1,0 +1,26 @@
+CAPI=2:
+
+name: "alexforencich:verilog-wishbone:wb_adapter:0"
+description: "Wisbone Adapter by Alex Forencich"
+
+filesets:
+    files_rtl_generic:
+        files:
+            - rtl/wb_adapter.v
+            - rtl/priority_encoder.v
+        file_type: verilogSource
+
+    files_lint_verilator:
+        files:
+            - lint/verilator_waiver.vlt: {file_type: vlt}
+
+targets:
+    default:
+        filesets:
+            - tool_verilator ? (files_lint_verilator)
+            - files_rtl_generic
+
+provider:
+  name : github
+  user : alexforencich
+  repo : verilog-wishbone
