@@ -1,0 +1,40 @@
+CAPI=2:
+
+name: zipcpu:wb2axip:wb_axi4_bridge:0
+
+filesets:
+  wb_axi4_bridge_rtl:
+    files:
+        - rtl/wbp2classic.v
+        - rtl/axi2axilite.v
+        - rtl/skidbuffer.v
+        - rtl/axi_addr.v
+        - rtl/sfifo.v
+        - rtl/axlite2wbsp.v
+        - rtl/axilwr2wbsp.v
+        - rtl/axilrd2wbsp.v
+        - rtl/wbarbiter.v
+    file_type: verilogSource
+    
+
+targets:
+  lint:
+        default_tool: verilator
+        filesets:
+            - wb_axi4_bridge_rtl
+        toplevel: wbp2classic
+        tools:
+            verilator:
+                mode: lint-only
+                verilator_options:
+                    - '-CFLAGS "-std=c++11"'
+                    - '-LDFLAGS "-pthread"'
+                    - "-Wall"
+  
+  default:
+        filesets: [wb_axi4_bridge_rtl]
+
+provider:
+  name : github
+  user : ZipCPU
+  repo : wb2axip
