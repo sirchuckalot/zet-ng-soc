@@ -1,11 +1,11 @@
 CAPI=2:
 
-name: ::ao486_cpu_wb_wrapper:1.1
+name: ::ao486_cpu_wb_wrapper:0
 
 filesets:
   ao486_wb_wrapper_rtl:
     depend:
-        - alfikpl:cpu:ao486_cpu:1.1
+        - alfikpl:cpu:ao486_cpu
         - wb_avalon_bridge
     files:
         - rtl/ao486_cpu_wb_wrapper.sv

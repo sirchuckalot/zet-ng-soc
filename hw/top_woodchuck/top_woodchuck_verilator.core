@@ -28,6 +28,17 @@ parameters:
         datatype : bool
         description : Dump VCD
         paramtype : plusarg
+
+    bootblock_init_file:
+        datatype: file
+        description : Boot block file to use
+        paramtype : plusarg
+        default : "default.rom"
+    bootblock_address:
+        datatype : int
+        paramtype : plusarg
+        # default top address is 4GB - 512KB in address space
+        default : 3670016
  
 targets:
     sim:
@@ -36,7 +47,7 @@ targets:
             - tool_verilator ? (files_lint_verilator)
             - files_sim_verilator
         toplevel: top_woodchuck_verilator
-        parameters : [timeout, vcd]
+        parameters : [timeout, vcd, bootblock_init_file, bootblock_address]
         tools:
             verilator:
                 mode: cc

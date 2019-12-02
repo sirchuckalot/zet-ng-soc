@@ -9,8 +9,9 @@ filesets:
             - optimsoc:debug:debug_interface
             - opensocdebug:modules:mam_wb
             - wb_intercon
-            - sirchuckalot:cpu:zet-cpu-wrapper:0
-            - alexforencich:verilog-wishbone:wb_adapter
+            - ao486_cpu_wb_wrapper
+#            - sirchuckalot:cpu:zet-cpu-wrapper:0
+#            - alexforencich:verilog-wishbone:wb_adapter
         files:
             - rtl/top_woodchuck.sv
         file_type: systemVerilogSource
@@ -23,14 +24,17 @@ generate:
                 osd_mam:
                     slaves:
                         - ext_ram
-                zet_cpu:
+                ao486_cpu_mem:
+                    slaves:
+                        - ext_ram
+                ao486_cpu_io:
                     slaves:
                         - ext_ram
             slaves:
                 ext_ram:
                     datawidth: 32
                     offset : 0x00000000
-                    size   : 0x08000000 #128MiB
+                    size   : 0xffff_ffff
         
 targets:
     default: &default_target

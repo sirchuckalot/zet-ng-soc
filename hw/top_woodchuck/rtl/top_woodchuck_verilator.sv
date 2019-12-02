@@ -34,9 +34,8 @@ parameter DEBUG_ROUTER_BUFFER_SIZE = 4;
 
 // Memory parameters
 parameter MEM_FILE = "";
-parameter MEM_SIZE = 128*1024*1024; // 128MB equals 134217728 in bytes
-//parameter MEM_ADDR_WIDTH = $clog2(MEM_SIZE);
-parameter MEM_ADDR_WIDTH = 32;
+parameter MEM_SIZE = 4*1024*1024*1024; // 4GB equals 4,294,967,296 in bytes
+parameter MEM_ADDR_WIDTH = $clog2(MEM_SIZE-1);
 
 logic rst_sys, rst_cpu;
     
@@ -202,7 +201,30 @@ wb_ram
      .wb_dat_o (wb_mem_dat_i),
      .wb_ack_o (wb_mem_ack_i),
      .wb_err_o (wb_mem_err_i));
+
+// Support Boot Block Loading
+reg [1023:0] bootblock_init_file;
+int bootblock_address;
+
+initial begin
+    // Wait until reset has been released
+    @(posedge rst_sys);
+
+    if ($value$plusargs("bootblock_init_file=%s", bootblock_init_file)) begin
+        $display("Loading ROM contents from: %0s", bootblock_init_file);
+    end
     
+    if ($value$plusargs ("bootblock_address=%d", bootblock_address)) begin
+        $display ("bootblock_addresss has value: %d", bootblock_address);
+    end
+        
+    // Now we can load the contents into memory
+    $readmemh(bootblock_init_file, wb_ram.ram0.mem, bootblock_address);
+    
+    // First test instruction
+    wb_ram.ram0.mem[32'hffff_fff0] = 32'hEA_EA_EA_EA;
+end
+
 // When not using Verilator, we need this to support capturing vcd signals
 `ifndef VERILATOR
     vlog_tb_utils vtu();
