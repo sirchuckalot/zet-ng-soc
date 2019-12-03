@@ -1,0 +1,141 @@
+CAPI=2:
+
+name: "zet-ng-soc:systems:top_raccoon:0"
+description: "Technology-independent Raccoon toplevel"
+
+filesets:
+    files_rtl:
+        depend:
+            - adv_debug_sys
+            - ">=jtag_tap-1.13"
+            - ao486_cpu_wb_wrapper-1.4
+            - ">=uart16550-1.5.4"
+            - ">=wb_intercon-1.0"
+            - ">=wb_ram-1.0"
+        files:
+            - rtl/top_raccoon.sv
+        file_type: systemVerilogSource
+    files_rtl_tb:
+        depend:
+            - elf-loader
+            - ">=jtag_vpi-r2"
+            - ">=vlog_tb_utils-1.0"
+            - wb_ram
+        files:
+            - bench/verilog/top_raccoon_tb.v
+        file_type: verilogSource 
+    
+
+generate:
+    wb_intercon:
+        generator : wb_intercon_gen
+        parameters:
+            masters:
+                dbg_mem:
+                    slaves:
+                        - unassigned_ram
+                cpu_mem:
+                    slaves:
+                        - bootrom
+                        - unassigned_ram
+                cpu_io:
+                    slaves:
+                        - uart
+                        - unassigned_io   
+            slaves:
+                uart:
+                    datawidth : 8
+                    offset : 0x90000000
+                    size : 8
+                bootrom:
+                    datawidth : 32
+                    offset : 0xffff_f000
+                    size : 4096
+                unassigned_ram:
+                    datawidth: 32
+                    offset : 0x00000000
+                    size   : 0xffff_ffff
+                unassigned_io:
+                    datawidth: 32
+                    offset : 0x00000000
+                    size   : 0xffff_ffff
+     
+#    wb_intercon_cpu_io:
+#        generator : wb_intercon_gen
+#        parameters:
+#            masters:
+#                cpu_io:
+#                    slaves:
+#                        - uart
+#                        - unassigned_io
+#            slaves:
+#                unassigned_io:
+#                    datawidth: 32
+#                    offset : 0x00000000
+#                    size   : 0xffff_ffff
+#                uart:
+#                    datawidth : 8
+#                    offset : 0x90000000
+#                    size : 8
+
+parameters:
+    timeout:
+        datatype : int
+        paramtype : plusarg
+
+    vcd:
+        datatype : bool
+        description : Dump VCD
+        paramtype : plusarg
+
+    enable_jtag_vpi:
+        datatype : bool
+        description : Enable JTAG VPI
+        paramtype : plusarg
+
+    clear_ram:
+        datatype : bool
+        description : Clear Ram Memory
+        paramtype : plusarg
+    elf_bootrom_load:
+        datatype: file
+        description : Boot ROM file to use
+        paramtype : plusarg
+#        default : "bootrom.rom"
+    elf_ram_load:
+        datatype: file
+        description : RAM init file to use
+        paramtype : plusarg
+#        default : "bootrom.rom"
+           
+targets:
+    sim:
+        default_tool: icarus
+        filesets:
+            - files_rtl
+            - tool_icarus ? (files_rtl_tb)
+        generate : [wb_intercon]
+        parameters : [timeout, vcd, enable_jtag_vpi, clear_ram, elf_bootrom_load, elf_ram_load]            
+        toplevel: top_raccoon_tb        
+        tools:
+            icarus:
+                iverilog_options:
+                    - "-DSIM"
+                
+            verilator:
+                mode: cc
+                verilator_options:
+                    - "--trace"
+                    - '-CFLAGS "-std=c++11"'
+                    - '-LDFLAGS "-pthread"'
+                    - "-Wall"
+                    # XXX: Cleanup all warnings and remove this option
+                    # (or make it more fine-grained at least)
+                    - "-Wno-fatal"
+
+
+    default: &default_target
+        filesets:
+            - files_rtl
+        generate : [wb_intercon]
+        toplevel: top_raccoon

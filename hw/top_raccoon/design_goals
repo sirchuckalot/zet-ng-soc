@@ -1,0 +1,49 @@
+Raccoon Core
+
+CPU
+Interrupt Core
+Memory Switch
+IO Switch
+Memory Routed outside core
+
+Keep It Simple Stupid
+Raccoon Top Level
+    Inputs
+        Clock
+        Reset
+        JTAG
+    Outputs
+        Memory System Bus
+        IO System Bus
+    Wishbone Interconnect
+    Generic JTAG TAP
+    Debug Interface
+        Advance Debug System
+    CPU
+    UART with Sim enabled
+    CPU Interrupt Assignments
+    External Memory Assignments
+
+Icarus/Modelsim test bench
+    Vlog_tb_utils
+    Jtag vpi
+    Elf program loading
+    Clock and reset generation
+    Raccoon Top
+
+Verilator Test Bench
+Include Verilator_tb_utils
+Initialize New instance of raccoon top Memory
+While (testbench -> doCycle() && !done)
+Hold reset until timeout
+Eval
+Toggle clock
+doJTAG
+
+Additional module calls can go here
+Custom test for done here
+End of while loop
+    Print Simulation has ended
+    Delete test bench
+    Exit 0
+
