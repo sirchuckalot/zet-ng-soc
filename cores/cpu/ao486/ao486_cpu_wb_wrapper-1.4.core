@@ -1,0 +1,31 @@
+CAPI=2:
+
+name: ::ao486_cpu_wb_wrapper:1.4
+
+filesets:
+  ao486_wb_wrapper_rtl:
+    depend:
+        - alfikpl:cpu:ao486_cpu:1.4
+        - wb_avalon_bridge
+    files:
+        - rtl/ao486_cpu_wb_wrapper.v
+    file_type: systemVerilogSource
+    
+
+targets:
+  lint:
+        default_tool: verilator
+        filesets:
+            - ao486_wb_wrapper_rtl
+        toplevel: ao486_cpu_wb_wrapper
+        tools:
+            verilator:
+                mode: lint-only
+                verilator_options:
+                    - '-CFLAGS "-std=c++11"'
+                    - '-LDFLAGS "-pthread"'
+                    - "-Wall"
+  
+  default:
+    filesets: [ao486_wb_wrapper_rtl]
+ 
