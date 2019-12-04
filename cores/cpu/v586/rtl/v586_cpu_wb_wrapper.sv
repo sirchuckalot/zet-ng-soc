@@ -61,56 +61,56 @@ module v586_cpu_wb_wrapper
 );
 
 // Full AXI4 to AXI4 lite memory bridge
-logic m00_AXI_RSTN;
-logic m00_AXI_CLK;
-logic [31:0] m00_AXI_AWADDR;
-logic m00_AXI_AWVALID;
-logic m00_AXI_AWREADY;
-logic [1:0] m00_AXI_AWBURST;
-logic [7:0] m00_AXI_AWLEN;
-logic [2:0] m00_AXI_AWSIZE;
-logic [31:0] m00_AXI_ARADDR;
-logic m00_AXI_ARVALID;
-logic m00_AXI_ARREADY;
-logic [1:0] m00_AXI_ARBURST;
-logic [7:0] m00_AXI_ARLEN;
-logic [2:0] m00_AXI_ARSIZE;
-logic [31:0] m00_AXI_WDATA;
-logic m00_AXI_WVALID;
-logic m00_AXI_WREADY;
-logic [3:0] m00_AXI_WSTRB;
-logic m00_AXI_WLAST;
-logic [31:0] m00_AXI_RDATA;
-logic m00_AXI_RVALID;
-logic m00_AXI_RREADY;
-logic m00_AXI_RLAST;
-logic m00_AXI_BVALID;
-logic m00_AXI_BREADY;
+wire m00_AXI_RSTN;
+wire m00_AXI_CLK;
+wire [31:0] m00_AXI_AWADDR;
+wire m00_AXI_AWVALID;
+wire m00_AXI_AWREADY;
+wire [1:0] m00_AXI_AWBURST;
+wire [7:0] m00_AXI_AWLEN;
+wire [2:0] m00_AXI_AWSIZE;
+wire [31:0] m00_AXI_ARADDR;
+wire m00_AXI_ARVALID;
+wire m00_AXI_ARREADY;
+wire [1:0] m00_AXI_ARBURST;
+wire [7:0] m00_AXI_ARLEN;
+wire [2:0] m00_AXI_ARSIZE;
+wire [31:0] m00_AXI_WDATA;
+wire m00_AXI_WVALID;
+wire m00_AXI_WREADY;
+wire [3:0] m00_AXI_WSTRB;
+wire m00_AXI_WLAST;
+wire [31:0] m00_AXI_RDATA;
+wire m00_AXI_RVALID;
+wire m00_AXI_RREADY;
+wire m00_AXI_RLAST;
+wire m00_AXI_BVALID;
+wire m00_AXI_BREADY;
 
 // Full AXI4 to AXI4 lite io bridge
-logic [31:0] m01_AXI_AWADDR;
-logic m01_AXI_AWVALID;
-logic m01_AXI_AWREADY;
-logic [1:0] m01_AXI_AWBURST;
-logic [7:0] m01_AXI_AWLEN;
-logic [2:0] m01_AXI_AWSIZE;
-logic [31:0] m01_AXI_ARADDR;
-logic m01_AXI_ARVALID;
-logic m01_AXI_ARREADY;
-logic [1:0] m01_AXI_ARBURST;
-logic [7:0] m01_AXI_ARLEN;
-logic [2:0] m01_AXI_ARSIZE;
-logic [31:0] m01_AXI_WDATA;
-logic m01_AXI_WVALID;
-logic m01_AXI_WREADY;
-logic [3:0] m01_AXI_WSTRB;
-logic m01_AXI_WLAST;
-logic [31:0] m01_AXI_RDATA;
-logic m01_AXI_RVALID;
-logic m01_AXI_RREADY;
-logic m01_AXI_RLAST;
-logic m01_AXI_BVALID;
-logic m01_AXI_BREADY;
+wire [31:0] m01_AXI_AWADDR;
+wire m01_AXI_AWVALID;
+wire m01_AXI_AWREADY;
+wire [1:0] m01_AXI_AWBURST;
+wire [7:0] m01_AXI_AWLEN;
+wire [2:0] m01_AXI_AWSIZE;
+wire [31:0] m01_AXI_ARADDR;
+wire m01_AXI_ARVALID;
+wire m01_AXI_ARREADY;
+wire [1:0] m01_AXI_ARBURST;
+wire [7:0] m01_AXI_ARLEN;
+wire [2:0] m01_AXI_ARSIZE;
+wire [31:0] m01_AXI_WDATA;
+wire m01_AXI_WVALID;
+wire m01_AXI_WREADY;
+wire [3:0] m01_AXI_WSTRB;
+wire m01_AXI_WLAST;
+wire [31:0] m01_AXI_RDATA;
+wire m01_AXI_RVALID;
+wire m01_AXI_RREADY;
+wire m01_AXI_RLAST;
+wire m01_AXI_BVALID;
+wire m01_AXI_BREADY;
 
 v586 v586 (
     .m00_AXI_RSTN(!cpu_rst_i), // Change polarity!!
@@ -173,27 +173,27 @@ v586 v586 (
 );
 
 // Memory AXI4 lite to Wishbone classic
-logic [AW-1:0]     M_MEM_AXI_AWADDR;
-logic [2 : 0]      M_MEM_AXI_AWPROT;
-logic              M_MEM_AXI_AWVALID;
-logic              M_MEM_AXI_AWREADY;
-logic [DW-1:0]     M_MEM_AXI_WDATA;
-logic [(DW/8)-1:0] M_MEM_AXI_WSTRB;
-logic              M_MEM_AXI_WVALID;
-logic              M_MEM_AXI_WREADY;
-logic [1 : 0]      M_MEM_AXI_BRESP;
-logic              M_MEM_AXI_BVALID;
-logic              M_MEM_AXI_BREADY;
+wire [AW-1:0]     M_MEM_AXI_AWADDR;
+wire [2 : 0]      M_MEM_AXI_AWPROT;
+wire              M_MEM_AXI_AWVALID;
+wire              M_MEM_AXI_AWREADY;
+wire [DW-1:0]     M_MEM_AXI_WDATA;
+wire [(DW/8)-1:0] M_MEM_AXI_WSTRB;
+wire              M_MEM_AXI_WVALID;
+wire              M_MEM_AXI_WREADY;
+wire [1 : 0]      M_MEM_AXI_BRESP;
+wire              M_MEM_AXI_BVALID;
+wire              M_MEM_AXI_BREADY;
     //
-logic [AW-1:0]     M_MEM_AXI_ARADDR;
-logic [2:0]        M_MEM_AXI_ARPROT;
-logic              M_MEM_AXI_ARVALID;
-logic              M_MEM_AXI_ARREADY;
+wire [AW-1:0]     M_MEM_AXI_ARADDR;
+wire [2:0]        M_MEM_AXI_ARPROT;
+wire              M_MEM_AXI_ARVALID;
+wire              M_MEM_AXI_ARREADY;
     //
-logic              M_MEM_AXI_RVALID;
-logic              M_MEM_AXI_RREADY;
-logic [DW-1 : 0]   M_MEM_AXI_RDATA;
-logic [1 : 0]      M_MEM_AXI_RRESP;
+wire              M_MEM_AXI_RVALID;
+wire              M_MEM_AXI_RREADY;
+wire [DW-1 : 0]   M_MEM_AXI_RDATA;
+wire [1 : 0]      M_MEM_AXI_RRESP;
     
 // Memory AXI4 to Wishbone Bridge
 axi2axilite #(
@@ -280,17 +280,17 @@ axi2axilite #(
 );
 
 // Wishbone pipelined to wishbone classic
-logic              o_mem_wb_reset;
-logic              o_mem_wb_cyc;
-logic              o_mem_wb_stb;
-logic              o_mem_wb_we;
-logic [(AW-3):0]   o_mem_wb_addr;
-logic [(DW-1):0]   o_mem_wb_data;
-logic [(DW/8-1):0] o_mem_wb_sel;
-logic              i_mem_wb_ack;
-logic              i_mem_wb_stall;
-logic [(DW-1):0]   i_mem_wb_data;
-logic              i_mem_wb_err;
+wire              o_mem_wb_reset;
+wire              o_mem_wb_cyc;
+wire              o_mem_wb_stb;
+wire              o_mem_wb_we;
+wire [(AW-3):0]   o_mem_wb_addr;
+wire [(DW-1):0]   o_mem_wb_data;
+wire [(DW/8-1):0] o_mem_wb_sel;
+wire              i_mem_wb_ack;
+wire              i_mem_wb_stall;
+wire [(DW-1):0]   i_mem_wb_data;
+wire              i_mem_wb_err;
 
 axlite2wbsp #(
     .C_AXI_DATA_WIDTH(DW), // Width of the AXI R&W data
@@ -377,27 +377,27 @@ wbp2classic #(
 
 /***********************************************************************/
 // IO AXI4 lite to Wishbone classic
-logic [AW-1:0]     M_IO_AXI_AWADDR;
-logic [2 : 0]      M_IO_AXI_AWPROT;
-logic              M_IO_AXI_AWVALID;
-logic              M_IO_AXI_AWREADY;
-logic [DW-1:0]     M_IO_AXI_WDATA;
-logic [(DW/8)-1:0] M_IO_AXI_WSTRB;
-logic              M_IO_AXI_WVALID;
-logic              M_IO_AXI_WREADY;
-logic [1 : 0]      M_IO_AXI_BRESP;
-logic              M_IO_AXI_BVALID;
-logic              M_IO_AXI_BREADY;
+wire [AW-1:0]     M_IO_AXI_AWADDR;
+wire [2 : 0]      M_IO_AXI_AWPROT;
+wire              M_IO_AXI_AWVALID;
+wire              M_IO_AXI_AWREADY;
+wire [DW-1:0]     M_IO_AXI_WDATA;
+wire [(DW/8)-1:0] M_IO_AXI_WSTRB;
+wire              M_IO_AXI_WVALID;
+wire              M_IO_AXI_WREADY;
+wire [1 : 0]      M_IO_AXI_BRESP;
+wire              M_IO_AXI_BVALID;
+wire              M_IO_AXI_BREADY;
 //
-logic [AW-1:0]     M_IO_AXI_ARADDR;
-logic [2:0]        M_IO_AXI_ARPROT;
-logic              M_IO_AXI_ARVALID;
-logic              M_IO_AXI_ARREADY;
+wire [AW-1:0]     M_IO_AXI_ARADDR;
+wire [2:0]        M_IO_AXI_ARPROT;
+wire              M_IO_AXI_ARVALID;
+wire              M_IO_AXI_ARREADY;
 //
-logic              M_IO_AXI_RVALID;
-logic              M_IO_AXI_RREADY;
-logic [DW-1 : 0]   M_IO_AXI_RDATA;
-logic [1 : 0]      M_IO_AXI_RRESP;
+wire              M_IO_AXI_RVALID;
+wire              M_IO_AXI_RREADY;
+wire [DW-1 : 0]   M_IO_AXI_RDATA;
+wire [1 : 0]      M_IO_AXI_RRESP;
     
 // Memory AXI4 to Wishbone Bridge
 axi2axilite #(
@@ -484,17 +484,17 @@ axi2axilite #(
     );
 
 // Wishbone pipelined to wishbone classic
-logic              o_io_wb_reset;
-logic              o_io_wb_cyc;
-logic              o_io_wb_stb;
-logic              o_io_wb_we;
-logic [(AW-3):0]   o_io_wb_addr;
-logic [(DW-1):0]   o_io_wb_data;
-logic [(DW/8-1):0] o_io_wb_sel;
-logic              i_io_wb_ack;
-logic              i_io_wb_stall;
-logic [(DW-1):0]   i_io_wb_data;
-logic              i_io_wb_err;
+wire              o_io_wb_reset;
+wire              o_io_wb_cyc;
+wire              o_io_wb_stb;
+wire              o_io_wb_we;
+wire [(AW-3):0]   o_io_wb_addr;
+wire [(DW-1):0]   o_io_wb_data;
+wire [(DW/8-1):0] o_io_wb_sel;
+wire              i_io_wb_ack;
+wire              i_io_wb_stall;
+wire [(DW-1):0]   i_io_wb_data;
+wire              i_io_wb_err;
 
 axlite2wbsp #(
         .C_AXI_DATA_WIDTH(DW), // Width of the AXI R&W data
