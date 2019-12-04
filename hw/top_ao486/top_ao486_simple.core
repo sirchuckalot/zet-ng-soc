@@ -20,7 +20,15 @@ filesets:
         files:
             - bench/verilog/top_ao486_simple_tb.v
         file_type: verilogSource
-
+    
+    files_verilator:
+        depend:
+            - verilator_tb_utils
+            - wb_ram
+        files:
+            - bench/verilator/top_ao486_simple_tb.cpp: { file_type: cppSource }
+            - bench/verilog/top_ao486_simple_tb.v: { file_type: verilogSource }
+        
 parameters:
     timeout:
         datatype : int
@@ -57,6 +65,7 @@ targets:
         filesets:
             - files_rtl
             - tool_icarus ? (files_rtl_tb)
+            - tool_verilator ? (files_verilator)
 #        generate : [wb_intercon]
         parameters : [timeout, vcd, clear_ram, elf_bootrom_load, elf_ram_load, first_instruction]            
         toplevel: top_ao486_simple_tb        
@@ -65,16 +74,16 @@ targets:
                 iverilog_options:
                     - "-DSIM"
                 
-#            verilator:
-#                mode: cc
-#                verilator_options:
-#                    - "--trace"
-#                    - '-CFLAGS "-std=c++11"'
-#                    - '-LDFLAGS "-pthread"'
-#                    - "-Wall"
-#                    # XXX: Cleanup all warnings and remove this option
-#                    # (or make it more fine-grained at least)
-#                    - "-Wno-fatal"
+            verilator:
+                mode: cc
+                verilator_options:
+                    - "--trace"
+                    - '-CFLAGS "-std=c++11"'
+                    - '-LDFLAGS "-pthread"'
+                    - "-Wall"
+                    # XXX: Cleanup all warnings and remove this option
+                    # (or make it more fine-grained at least)
+                    - "-Wno-fatal"
 
 
     default: &default_target

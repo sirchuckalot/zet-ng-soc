@@ -1,6 +1,11 @@
 `default_nettype none
 
-module top_ao486_simple_tb;
+module top_ao486_simple_tb(
+        `ifdef VERILATOR
+            input clk,
+            input rst
+        `endif
+        );
     
     localparam BOOTROM_FILE = "";
     localparam BOOTROM_SIZE = 32'h1000; // KB = 4096 bytes
@@ -9,7 +14,9 @@ module top_ao486_simple_tb;
     localparam MEM_SIZE = 32'h02000000; // Set default memory size to 32MB
     //localparam MEM_SIZE = 32'hffff_ffff; // Set default memory size to 4GB
         
-    vlog_tb_utils vlog_tb_utils0();
+    `ifndef VERILATOR
+        vlog_tb_utils vlog_tb_utils0();
+    `endif
     
     // CPU Memory BUS Master
     wire        wb_cpu_mem_clk_i;
@@ -48,81 +55,107 @@ module top_ao486_simple_tb;
     // ELF program loading
     //
     ////////////////////////////////////////////////////////////////////////
+    `ifndef VERILATOR
+        integer mem_words;
+        integer i;
+        reg [31:0] mem_word;
     
-    integer mem_words;
-    integer i;
-    reg [31:0] mem_word;
-    
-    reg [1023:0] elf_bootrom_file;
-    reg [1023:0] elf_ram_file;
+        reg [1023:0] elf_bootrom_file;
+        reg [1023:0] elf_ram_file;
 
-    initial begin
-        $display("");
-        $display("Starting Simulation");
-        $display("");
-        if ($test$plusargs("clear_ram")) begin
-            $display("Clearing %d RAM words", MEM_SIZE/4);
-            for(i=0; i < MEM_SIZE/4; i = i+1)
-                top_ao486_simple_tb.wb_ram.ram0.mem[i] = 32'h00000000;
+        initial begin
+            $display("");
+            $display("Starting Simulation");
+            $display("");
+            if ($test$plusargs("clear_ram")) begin
+                $display("Clearing %d RAM words", MEM_SIZE/4);
+                for(i=0; i < MEM_SIZE/4; i = i+1)
+                    top_ao486_simple_tb.wb_ram.ram0.mem[i] = 32'h00000000;
+            end
+        
+            $display("");
+        
+            if($value$plusargs("elf_bootrom_load=%s", elf_bootrom_file)) begin
+                $display("Loading ELF BOOT ROM Memory");
+                $elf_load_file(elf_bootrom_file);
+
+                mem_words = $elf_get_size/4;
+                $display("Loading %d words", mem_words);
+                for(i=0; i < mem_words; i = i+1)
+                    top_ao486_simple_tb.wb_ram.ram0.mem[i] = $elf_read_32(i*4);
+            end else
+                $display("No ELF Boot ROM file specified");
+        
+            $display("");
+        
+            if($value$plusargs("elf_ram_load=%s", elf_ram_file)) begin
+                $display("Loading ELF RAM Memory");
+                $elf_load_file(elf_ram_file);
+
+                mem_words = $elf_get_size/4;
+                $display("Loading %d words", mem_words);
+                for(i=0; i < mem_words; i = i+1)
+                    top_ao486_simple_tb.wb_ram.ram0.mem[i] = $elf_read_32(i*4);
+            end else
+                $display("No ELF RAM Memory file specified");
+        
+            $display("");
+        
+            if($test$plusargs("first_instruction")) begin
+                $display("Loading First Instruction into RAM");
+                $display("mem[25'h1ff_fff0/4] = 32'heb_03_eb_03");
+                wb_ram.ram0.mem[25'h1ff_fff0/4] = 32'heb_03_eb_03;
+                //$elf_load_file(elf_ram_file);
+
+                //mem_words = $elf_get_size/4;
+                //$display("Loading %d words", mem_words);
+                //for(i=0; i < mem_words; i = i+1)
+                //    top_ao486_simple_tb.wb_ram.ram0.mem[i] = $elf_read_32(i*4);
+            end else
+                $display("First Instruction not loaded into RAM");
+
         end
+    `endif
+    
+    `ifdef VERILATOR
+        initial begin
+/*            if ($value$plusargs("bootblock_init_file=%s", bootblock_init_file)) begin
+                $display("Loading ROM contents from: %0s", bootblock_init_file);
+            end
+    
+            if ($value$plusargs ("bootblock_address=%d", bootblock_address)) begin
+                $display ("bootblock_addresss has value: %d", bootblock_address);
+            end
         
-        $display("");
-        
-        if($value$plusargs("elf_bootrom_load=%s", elf_bootrom_file)) begin
-            $display("Loading ELF BOOT ROM Memory");
-            $elf_load_file(elf_bootrom_file);
-
-            mem_words = $elf_get_size/4;
-            $display("Loading %d words", mem_words);
-            for(i=0; i < mem_words; i = i+1)
-                top_ao486_simple_tb.wb_ram.ram0.mem[i] = $elf_read_32(i*4);
-        end else
-            $display("No ELF Boot ROM file specified");
-        
-        $display("");
-        
-        if($value$plusargs("elf_ram_load=%s", elf_ram_file)) begin
-            $display("Loading ELF RAM Memory");
-            $elf_load_file(elf_ram_file);
-
-            mem_words = $elf_get_size/4;
-            $display("Loading %d words", mem_words);
-            for(i=0; i < mem_words; i = i+1)
-                top_ao486_simple_tb.wb_ram.ram0.mem[i] = $elf_read_32(i*4);
-        end else
-            $display("No ELF RAM Memory file specified");
-        
-        $display("");
-        
-        if($test$plusargs("first_instruction")) begin
-            $display("Loading First Instruction into RAM");
-            $display("mem[25'h1ff_fff0/4] = 32'heb_03_eb_03");
+            // Now we can load the contents into memory
+            $readmemh(bootblock_init_file, wb_ram.ram0.mem, bootblock_address);
+*/    
+            // First test instruction
             wb_ram.ram0.mem[25'h1ff_fff0/4] = 32'heb_03_eb_03;
-            //$elf_load_file(elf_ram_file);
-
-            //mem_words = $elf_get_size/4;
-            //$display("Loading %d words", mem_words);
-            //for(i=0; i < mem_words; i = i+1)
-            //    top_ao486_simple_tb.wb_ram.ram0.mem[i] = $elf_read_32(i*4);
-        end else
-            $display("First Instruction not loaded into RAM");
-
-    end
-
+        end
+    `endif
+    
     ////////////////////////////////////////////////////////////////////////
     //
     // Clock and reset generation
     //
     ////////////////////////////////////////////////////////////////////////
     
-    reg syst_clk = 1;
-    reg syst_rst = 1;
+    `ifndef VERILATOR
+        reg syst_clk = 1;
+        reg syst_rst = 1;
 
-    always #5 syst_clk <= ~syst_clk;
-    initial #100 syst_rst <= 0;
+        always #5 syst_clk <= ~syst_clk;
+        initial #100 syst_rst <= 0;
     
-    assign wb_cpu_mem_clk_i = syst_clk;
-    assign wb_cpu_mem_rst_i = syst_rst;
+        assign wb_cpu_mem_clk_i = syst_clk;
+        assign wb_cpu_mem_rst_i = syst_rst;
+    `endif
+    
+    `ifdef VERILATOR
+        assign wb_cpu_mem_clk_i = clk;
+        assign wb_cpu_mem_rst_i = rst;
+    `endif
     
     ////////////////////////////////////////////////////////////////////////
     //
