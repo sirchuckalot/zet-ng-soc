@@ -1,0 +1,84 @@
+CAPI=2:
+
+name: "zet-ng-soc:systems:top_ao486_simple:0"
+description: "Technology-independent ao486 simple toplevel"
+
+filesets:
+    files_rtl:
+        depend:
+            - ao486_cpu_wb_wrapper-1.4
+#            - v586_cpu_wb_wrapper
+#        files:
+#            - rtl/top_woodchuck.sv
+#        file_type: systemVerilogSource
+
+    files_rtl_tb:
+        depend:
+            - elf-loader
+            - ">=vlog_tb_utils-1.0"
+            - wb_ram
+        files:
+            - bench/verilog/top_ao486_simple_tb.v
+        file_type: verilogSource
+
+parameters:
+    timeout:
+        datatype : int
+        paramtype : plusarg
+
+    vcd:
+        datatype : bool
+        description : Dump VCD
+        paramtype : plusarg
+
+    clear_ram:
+        datatype : bool
+        description : Clear Ram Memory
+        paramtype : plusarg
+    elf_bootrom_load:
+        datatype: file
+        description : Boot ROM file to use
+        paramtype : plusarg
+#        default : "bootrom.rom"
+    elf_ram_load:
+        datatype: file
+        description : RAM init file to use
+        paramtype : plusarg
+#        default : "bootrom.rom"
+    first_instruction:
+        datatype : bool
+        description : Dump VCD
+        paramtype : plusarg
+
+        
+targets:
+    sim:
+        default_tool: icarus
+        filesets:
+            - files_rtl
+            - tool_icarus ? (files_rtl_tb)
+#        generate : [wb_intercon]
+        parameters : [timeout, vcd, clear_ram, elf_bootrom_load, elf_ram_load, first_instruction]            
+        toplevel: top_ao486_simple_tb        
+        tools:
+            icarus:
+                iverilog_options:
+                    - "-DSIM"
+                
+#            verilator:
+#                mode: cc
+#                verilator_options:
+#                    - "--trace"
+#                    - '-CFLAGS "-std=c++11"'
+#                    - '-LDFLAGS "-pthread"'
+#                    - "-Wall"
+#                    # XXX: Cleanup all warnings and remove this option
+#                    # (or make it more fine-grained at least)
+#                    - "-Wno-fatal"
+
+
+    default: &default_target
+        filesets:
+            - files_rtl
+#        generate : [wb_intercon]
+        toplevel: top_ao486_simple_tb
